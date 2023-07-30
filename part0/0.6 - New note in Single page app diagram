@@ -18,13 +18,13 @@ sequenceDiagram
     Browser->>Server: Fetch data.json
     Server-->>Browser: raw data of notes
 
-    Note over Browser, Server: Submitting the note triggers the event handler.
-    Note over Browser, Server: Event handler appends the new note to the notes.
-    Note over Browser, Server: It then causes the browser to make an HTTP POST request with the notes in JSON format as data.
+    Note over Browser: Submitting the note triggers the event handler.
+    Note over Browser: Event handler appends the new note to the notes.
+    Note over Browser: It then causes the browser to make an HTTP POST request with the notes in JSON format as data.
 
     Browser->>Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
 
-    Note over Server, Browser: Server parses according to the type found in the header "Content-Type".
+    Note over Server: Server parses according to the type found in the header "Content-Type".
 
     Server-->>Browser: Status code 201
 
