@@ -4,7 +4,7 @@ sequenceDiagram
     participant Server
 
     Browser->>Server: HTTP POST to address "/new_note"
-    Server->>Browser: HTTP Status 302 (Redirect) Location: "/notes"
+    Server-->>Browser: HTTP Status 302 (Redirect) Location: "/notes"
 
     Note over Browser, Server: The redirect causes the browser to make a new HTTP GET request to "/notes"
     Note over Browser, Server: This causes the browser to reload, which triggers three more HTTP requests.
