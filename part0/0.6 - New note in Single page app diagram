@@ -3,6 +3,8 @@ sequenceDiagram
     participant Browser
     participant Server
 
+    Server-->>Browser: Status Code 200, data.json
+
     Note over Browser: Submitting the note triggers the event handler.
     Note over Browser: Event handler appends the new note to the notes.
     Note over Browser: It then causes the browser to make an HTTP POST request with the notes in JSON format as data.
