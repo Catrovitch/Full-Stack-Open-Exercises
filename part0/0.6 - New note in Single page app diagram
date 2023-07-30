@@ -3,22 +3,9 @@ sequenceDiagram
     participant Browser
     participant Server
 
-    Browser->>Server: HTTP POST to address "/new_note"
-    Server-->>Browser: HTTP Status 302 (Redirect) Location: "/notes"
-
-    Note over Browser, Server: The redirect causes the browser to make a new HTTP GET request to "/notes"
-    Note over Browser, Server: This causes the browser to reload, which triggers three more HTTP requests.
-
-    Browser->>Server: Fetch main.css
-    Server-->>Browser: main.css file
-
-    Browser->>Server: Fetch main.js
-    Server-->>Browser: main.js file
-
-    Browser->>Server: Fetch data.json
-    Server-->>Browser: raw data of notes
-
     Note over Browser: Submitting the note triggers the event handler.
+    Note over Browser: Event handler appends the new note to the notes.
+    Note over Browser: It then causes the browser to make an HTTP POST request with the notes in JSON format as data.
 
     Browser->>Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
 
