@@ -13,5 +13,3 @@ sequenceDiagram
 
     Server-->>Browser: Status code 201
 
-
-    
