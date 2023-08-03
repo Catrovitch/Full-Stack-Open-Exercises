@@ -6,7 +6,16 @@ const Button = ({handleClick, text}) => <button onClick={handleClick}> {text} </
 const Display = ({text, value}) => <>{text} {value}<br></br></>
 const Statistics = (props) => {
   const { good, neutral, bad, all, average, positive } = props;
-
+  
+  if (all === 0) {
+    return (
+      <>
+        <Header text='statistics'/>
+        <Display text='No feedback given'></Display>
+      </>
+    );
+  }
+  
   return (
     <>
       <Header text='statistics'/>
