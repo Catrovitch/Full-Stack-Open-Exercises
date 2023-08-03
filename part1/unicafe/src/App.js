@@ -4,7 +4,13 @@ import { useState } from 'react'
 const Header = ({text}) => <h1>{text}</h1>
 const Button = ({handleClick, text}) => <button onClick={handleClick}> {text} </button>
 const Display = ({text}) => <>{text}</>
-const StatisticsLine = ({text, value}) => <>{text} {value}<br></br></>
+const StatisticsLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
+);
+
 const Statistics = (props) => {
   const { good, neutral, bad, all, average, positive } = props;
   
@@ -56,9 +62,8 @@ const App = () => {
     setNeutral(neutral+1)
     setAll(all+1)
     const updatedAll = all +1
-    const positive_percentage = good/updatedAll
-    const positive_percentage_string = (positive_percentage.toString()+'%')
-    setPositive(positive_percentage_string)
+    const positiveFeedbackPercentage = PositivePercentage({good: good, all: updatedAll})
+    setPositive(positiveFeedbackPercentage)
   }  
   
   const BadFeedback = () => {
@@ -67,9 +72,8 @@ const App = () => {
     const updatedBad = bad+1
     const updatedAll = all +1
     setAverage((good-updatedBad)/updatedAll)
-    const positive_percentage = good/updatedAll
-    const positive_percentage_string = (positive_percentage.toString()+'%')
-    setPositive(positive_percentage_string)
+    const positiveFeedbackPercentage = PositivePercentage({good: good, all: updatedAll})
+    setPositive(positiveFeedbackPercentage)
   }
 
   const PositivePercentage = ({ good, all }) => {
