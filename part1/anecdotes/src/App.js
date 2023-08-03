@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+const Header = ({text}) => <h1>{text}</h1>
 const Button = ({handleClick, text}) => <button onClick={handleClick}> {text} </button>
 const Anecdote = ({text, votes}) => (
   <>
@@ -46,9 +46,27 @@ const App = () => {
     updatedVotingDictionary[selected] = (updatedVotingDictionary[selected] || 0) + 1;
     setVotingDictionary(updatedVotingDictionary);
   };
+
+  function MostPopular() {
+    let mostPopular = 0;
+    let mostVotes = 0;
+  
+    for (const key in votingDictionary) {
+      if (votingDictionary.hasOwnProperty(key)) {
+        const value = votingDictionary[key];
+        if (value > mostVotes) {
+          mostPopular = key;
+          mostVotes = value;
+        }
+      }
+    }
+  
+    return mostPopular;
+  }
   
   return (
     <div>
+      <Header text={'Anecdote of the day'}></Header>
       <Anecdote text={anecdotes[selected]} votes={votingDictionary[selected]}></Anecdote>
       <Button
         handleClick={Vote}
@@ -58,6 +76,8 @@ const App = () => {
         handleClick={Select}
         text='next anecdote'
       ></Button>
+      <Header text={'Anecdote with most votes'}></Header>
+      <Anecdote text={anecdotes[MostPopular()]} votes={votingDictionary[MostPopular()]}></Anecdote>
     </div>
   )
 }
