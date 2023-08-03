@@ -3,7 +3,8 @@ import { useState } from 'react'
 
 const Header = ({text}) => <h1>{text}</h1>
 const Button = ({handleClick, text}) => <button onClick={handleClick}> {text} </button>
-const Display = ({text, value}) => <>{text} {value}<br></br></>
+const Display = ({text}) => <>{text}</>
+const StatisticsLine = ({text, value}) => <>{text} {value}<br></br></>
 const Statistics = (props) => {
   const { good, neutral, bad, all, average, positive } = props;
   
@@ -19,12 +20,12 @@ const Statistics = (props) => {
   return (
     <>
       <Header text='statistics'/>
-      <Display text='good' value={good}/>
-      <Display text='neutral' value={neutral}/>
-      <Display text='bad' value={bad}/>
-      <Display text='all' value={all}/>
-      <Display text='average' value={average}/>
-      <Display text='positive' value={positive}/>
+      <StatisticsLine text='good' value={good}/>
+      <StatisticsLine text='neutral' value={neutral}/>
+      <StatisticsLine text='bad' value={bad}/>
+      <StatisticsLine text='all' value={all}/>
+      <StatisticsLine text='average' value={average}/>
+      <StatisticsLine text='positive' value={positive}/>
     </>
   );
 };
