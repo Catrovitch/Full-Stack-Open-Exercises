@@ -17,23 +17,23 @@ const Statistics = (props) => {
   if (all === 0) {
     return (
       <>
-        <Header text='statistics'/>
         <Display text='No feedback given'></Display>
       </>
     );
   }
-  
   return (
-    <>
-      <Header text='statistics'/>
-      <StatisticsLine text='good' value={good}/>
-      <StatisticsLine text='neutral' value={neutral}/>
-      <StatisticsLine text='bad' value={bad}/>
-      <StatisticsLine text='all' value={all}/>
-      <StatisticsLine text='average' value={average}/>
-      <StatisticsLine text='positive' value={positive}/>
-    </>
+    <table>
+      <tbody> 
+        <StatisticsLine text='good' value={good}/>
+        <StatisticsLine text='neutral' value={neutral}/>
+        <StatisticsLine text='bad' value={bad}/>
+        <StatisticsLine text='all' value={all}/>
+        <StatisticsLine text='average' value={average}/>
+        <StatisticsLine text='positive' value={positive}/>
+      </tbody>
+    </table>
   );
+  
 };
 
 
@@ -97,6 +97,7 @@ const App = () => {
         handleClick={BadFeedback}
         text='bad'
       />
+      <Header text='statistics'/>
       <Statistics 
         good={good}
         neutral={neutral}
