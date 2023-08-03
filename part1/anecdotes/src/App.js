@@ -1,7 +1,12 @@
 import { useState } from 'react'
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}> {text} </button>
-const Anecdote = ({text}) => <p>{text}</p>
+const Anecdote = ({text, votes}) => (
+  <>
+    <p>{text}</p>
+    <p>has {votes} votes</p>
+  </>
+);
 
 const App = () => {
   const anecdotes = [
@@ -17,18 +22,40 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
-  const SelectState = () => {
+  const getVotingDictionary = ({}) => {  
+    if (!Array.isArray(anecdotes) || anecdotes.length === 0) {
+    return {}; // Return an empty object if the input is not an array or it's an empty array
+  }
+    const dictionary = {};
+    for (let i = 0; i < anecdotes.length; i++) {
+      dictionary[i] = 0;
+    }
+  
+    return dictionary;
+  };
 
+  const [votingDictionary, setVotingDictionary] = useState(getVotingDictionary(anecdotes))
+  
+  const Select = () => {
     const selected = Math.floor(Math.random() * anecdotes.length);
-
     setSelected(selected)
   } 
 
+  const Vote = () => {
+    const updatedVotingDictionary = { ...votingDictionary };
+    updatedVotingDictionary[selected] = (updatedVotingDictionary[selected] || 0) + 1;
+    setVotingDictionary(updatedVotingDictionary);
+  };
+  
   return (
     <div>
-      <Anecdote text={anecdotes[selected]}></Anecdote>
+      <Anecdote text={anecdotes[selected]} votes={votingDictionary[selected]}></Anecdote>
       <Button
-        handleClick={SelectState}
+        handleClick={Vote}
+        text='vote'
+      ></Button>
+      <Button
+        handleClick={Select}
         text='next anecdote'
       ></Button>
     </div>
