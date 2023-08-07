@@ -4,9 +4,16 @@ import Numbers from './components/Numbers'
 
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: 456546}]) 
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [searchName, setSearchName] = useState('')
+  const [matchingNames, setMatchingNames] = useState(persons)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -14,6 +21,11 @@ const App = () => {
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const handleSearchChange = (event) => {
+    setMatchingNames(searchPersons(persons, event.target.value))
+    setSearchName(event.target.value)
   }
   const addPerson = (event) => {
     event.preventDefault();
@@ -26,10 +38,23 @@ const App = () => {
         name: newName,
         number: newNumber
       };
-      setPersons(persons.concat(nameObject));
+      const updatedPersons = persons.concat(nameObject)
+      setPersons(updatedPersons);
+      console.log(updatedPersons)
+      const updatedMatchingNames = searchPersons(updatedPersons, searchName)
+      setMatchingNames(updatedMatchingNames)
       setNewName('');
       setNewNumber('');
     }
+  };
+  
+  const searchPersons = (updatedPersons, searchName) => {
+    console.log('List: ', updatedPersons)
+    console.log('Search name: ', searchName)
+    const filteredList = updatedPersons.filter((updatedPerson) =>
+      updatedPerson.name.toLowerCase().includes(searchName.toLowerCase())
+    );
+    return filteredList;
   };
   
 
@@ -37,12 +62,21 @@ const App = () => {
     return persons.some(person => person.name === name);
   };
 
+  const noSubmit = () => {}
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <form onSubmit={noSubmit}>
+        <div>
+          search: <input
+          value={searchName}
+          onChange={handleSearchChange}/>
+        </div>
+      </form>
 
+      <h2>add a new</h2>
       <form onSubmit={addPerson}>
-      
         <div>
           name: <input 
           value={newName}
@@ -61,7 +95,7 @@ const App = () => {
       </form>
       
       <h2>Numbers</h2>
-      <Numbers persons={persons}></Numbers>
+      <Numbers persons={matchingNames}></Numbers>
     </div>
   )
 }
