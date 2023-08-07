@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Numbers from './components/Numbers'
-
+import FormField from './components/FormField'
+import AddNewPeopleForm from './components/AddNewPeopleForm'
 
 
 const App = () => {
@@ -49,8 +50,6 @@ const App = () => {
   };
   
   const searchPersons = (updatedPersons, searchName) => {
-    console.log('List: ', updatedPersons)
-    console.log('Search name: ', searchName)
     const filteredList = updatedPersons.filter((updatedPerson) =>
       updatedPerson.name.toLowerCase().includes(searchName.toLowerCase())
     );
@@ -76,24 +75,10 @@ const App = () => {
       </form>
 
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handleNameChange}/>
-        </div>
-        <div>
-          number: <input 
-          value={newNumber}
-          onChange={handleNumberChange}/>
-        </div>
-      
-        <div>
-          <button type="submit">add</button>
-        </div>
-      
-      </form>
-      
+      <AddNewPeopleForm onSubmit={addPerson} formList={[
+        { text: 'name', formValue: newName, formOnChange: handleNameChange },
+        { text: 'number', formValue: newNumber, formOnChange: handleNumberChange }
+        ]} buttonText='add' />      
       <h2>Numbers</h2>
       <Numbers persons={matchingNames}></Numbers>
     </div>
