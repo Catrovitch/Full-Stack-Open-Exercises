@@ -19,9 +19,11 @@ const App = () => {
         setMatchingNames(initialPersons)
       })
   }
+  useEffect(hook, [])
+
   const deletePerson = id => {
     const personWithId = getPersonWithId(id)
-    if (window.confirm(`Delete ${personWithId.name}?`)) {
+    if (window.confirm(`Delete ${personWithId.name} ?`)) {
       personService
         .deletePerson(id)
       const updatedPersons = persons.filter(person => person.id !== id)
@@ -30,8 +32,19 @@ const App = () => {
       setMatchingNames(updatedMatchingNames) 
     }
   }
-  useEffect(hook, [])
 
+  const replaceNumberForExistingPerson = (id, newNumber) => {
+    const personWithId = getPersonWithId(id)
+    const alteredPerson = {...personWithId, number: newNumber}
+
+    personService
+      .update(id, alteredPerson).then(returnedPerson => {
+        const updatedPersons = persons.map(person => person.id !== id ? person : returnedPerson)
+        setPersons(updatedPersons)
+        const updatedMatchingNames = searchPersons(updatedPersons, searchName)
+        setMatchingNames(updatedMatchingNames)
+      })
+  }
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -47,7 +60,10 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
     if (checkNames(newName)) {
-      alert(`${newName} already exists in the phonebook`);
+      if (window.confirm(`${newName} is already added to phonebook, replace old number with a new one?`)) {
+        const personId = getPersonWithName(newName).id
+        replaceNumberForExistingPerson(personId, newNumber)
+      }
     } else if (newName === '') {
       alert('Name field cannot be empty');
     } else {
@@ -77,6 +93,11 @@ const App = () => {
   const getPersonWithId = (id) => {
     return persons.find(person => person.id === id)
   }
+
+  const getPersonWithName = (name) => {
+    return persons.find(person => person.name === name)
+  }
+
   const checkNames = (name) => {
     return persons.some(person => person.name === name);
   };
