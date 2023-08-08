@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 import Numbers from './components/Numbers'
 import AddNewPeopleForm from './components/AddNewPeopleForm'
 
@@ -12,14 +12,12 @@ const App = () => {
   const [matchingNames, setMatchingNames] = useState(persons)
 
   const hook = () => {
-    axios
-        .get('http://localhost:3001/persons')
-        .then(response => {
-          console.log('promise fulfilled')
-          console.log('Data', response.data)
-          setPersons(response.data)
-          setMatchingNames(response.data)
-        })
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+        setMatchingNames(initialPersons)
+      })
   }
 
   useEffect(hook, [])
