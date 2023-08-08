@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
-import Numbers from './components/Numbers'
+import Person from './components/Person'
 import AddNewPeopleForm from './components/AddNewPeopleForm'
 
 
@@ -19,7 +19,17 @@ const App = () => {
         setMatchingNames(initialPersons)
       })
   }
-
+  const deletePerson = id => {
+    const personWithId = getPersonWithId(id)
+    if (window.confirm(`Delete ${personWithId.name}?`)) {
+      personService
+        .deletePerson(id)
+      const updatedPersons = persons.filter(person => person.id !== id)
+      setPersons(updatedPersons)
+      const updatedMatchingNames = searchPersons(updatedPersons, searchName)
+      setMatchingNames(updatedMatchingNames) 
+    }
+  }
   useEffect(hook, [])
 
   const handleNameChange = (event) => {
@@ -61,10 +71,12 @@ const App = () => {
       updatedPerson.name.toLowerCase().includes(searchName.toLowerCase())
     );
     return filteredList;
-    };
+  };
 
   
-
+  const getPersonWithId = (id) => {
+    return persons.find(person => person.id === id)
+  }
   const checkNames = (name) => {
     return persons.some(person => person.name === name);
   };
@@ -88,7 +100,11 @@ const App = () => {
         { text: 'number', formValue: newNumber, formOnChange: handleNumberChange }
         ]} buttonText='add' />      
       <h2>Numbers</h2>
-      <Numbers persons={matchingNames}></Numbers>
+      <ul>
+        {matchingNames.map(person => 
+          <Person key={person.id} person={person} deletePerson={() => deletePerson(person.id)} />
+        )}
+      </ul>
     </div>
   )
 }

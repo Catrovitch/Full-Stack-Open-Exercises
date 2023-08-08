@@ -14,31 +14,6 @@
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Alan Turing",
-      "number": "10-01-11-00",
-      "id": 4
-    },
-    {
-      "name": "Steve Jobs",
-      "number": "123123123",
-      "id": 5
-    },
-    {
-      "name": "Bill Gates",
-      "number": "234234234",
-      "id": 6
-    },
-    {
-      "name": "Steve Wozniak",
-      "number": "98765123",
-      "id": 7
     }
   ]
 }
