@@ -11,7 +11,8 @@ const App = () => {
   const [searchName, setSearchName] = useState('')
   const [matchingNames, setMatchingNames] = useState(persons)
   const [notification, setNotification] = useState(null)
-
+  const [notificationError, setNotificationError] = useState(false)
+  
   const hook = () => {
     personService
       .getAll()
@@ -44,6 +45,16 @@ const App = () => {
         setPersons(updatedPersons)
         const updatedMatchingNames = searchPersons(updatedPersons, searchName)
         setMatchingNames(updatedMatchingNames)
+        })
+      .catch(error => {
+        setNotificationError(true)
+        console.log('error', notificationError)
+        setNotification(`Information of ${personWithId.name} has already been removed from the server`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+        setPersons(persons.filter(n => n.id !== id))
+        
       })
   }
   const handleNameChange = (event) => {
@@ -80,6 +91,7 @@ const App = () => {
           const updatedMatchingNames = searchPersons(updatedPersons, searchName)
           setMatchingNames(updatedMatchingNames)
         })
+      setNotificationError(false)
       setNotification(`Added ${newName}`)
       setTimeout(() => {
         setNotification(null)
@@ -112,7 +124,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification message={notification} notificationError={notificationError}/>
       <form onSubmit={noSubmit}>
         <div>
           search: <input
