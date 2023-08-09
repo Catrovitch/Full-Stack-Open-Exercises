@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import personService from './services/persons'
 import Person from './components/Person'
 import AddNewPeopleForm from './components/AddNewPeopleForm'
-
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,6 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [matchingNames, setMatchingNames] = useState(persons)
+  const [notification, setNotification] = useState(null)
 
   const hook = () => {
     personService
@@ -79,6 +80,10 @@ const App = () => {
           const updatedMatchingNames = searchPersons(updatedPersons, searchName)
           setMatchingNames(updatedMatchingNames)
         })
+      setNotification(`Added ${newName}`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
   };
 
@@ -107,6 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} />
       <form onSubmit={noSubmit}>
         <div>
           search: <input
