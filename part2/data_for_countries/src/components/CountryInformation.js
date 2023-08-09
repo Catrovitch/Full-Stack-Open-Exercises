@@ -1,4 +1,7 @@
-const CountryInfomration = ({country}) => {
+
+
+const CountryInfomration = ({country, captialWeather}) => {
+
     return (
         <div>
           <h1>{country.name}</h1>
@@ -14,6 +17,7 @@ const CountryInfomration = ({country}) => {
             ))}
           </ul>
           <img src={country.flag}></img>
+          <h2>Weather in {country.capital}</h2>
         </div>
     )
 

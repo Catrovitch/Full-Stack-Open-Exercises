@@ -4,12 +4,16 @@ import countriesService from './services/countries'
 import CreateCountryArray from './utility/createCountryArray'
 import SearchCountriesByName from './utility/searchCountriesByName'
 import GetCountryByName from './utility/getCountryByName'
+import weatherService from './services/weather'
+import GetCoords from './utility/getCoords'
 
 const App = () => {
   const [formFieldText, setSearchText] = useState('')
   const [countries, setCountries] = useState([])
   const [searchedCountries, setSearchedCountries] = useState(countries)
   const [countryToShow, setCountryToShow] = useState(null)
+  const [capitalInfo, setCapitalInfo] = useState(null)
+  const [capitalWeather, setCapitalWeather] = useState(null)
 
 
   const handleSearchText = (event) => {
@@ -30,8 +34,8 @@ const App = () => {
   }, [])
 
   const showCountry = countryName => {
-    const countryWithName = GetCountryByName(countryName, countries)
-    setCountryToShow(countryWithName)
+    const country = GetCountryByName(countryName, countries)
+    setCountryToShow(country)
   }
 
 
@@ -44,6 +48,7 @@ const App = () => {
         handleSearchText={handleSearchText}
         showCountry={showCountry}
         countryToShow={countryToShow}
+        capitalWeather={capitalWeather}
         ></CountrySearch>  
     </div>
   );

@@ -3,7 +3,7 @@ import FormField from './FormField'
 import CountriesList from './CountriesList';
 import CountryInfomration from './CountryInformation';
 
-const CountrySearch = ({ countries, formHeader, formFieldText, handleSearchText, showCountry, countryToShow }) => {
+const CountrySearch = ({ countries, formHeader, formFieldText, handleSearchText, showCountry, countryToShow, capitalWeather }) => {
 
     return (
         <div>
@@ -15,6 +15,7 @@ const CountrySearch = ({ countries, formHeader, formFieldText, handleSearchText,
             {countryToShow !== null ? (
                 <CountryInfomration 
                     country= {countryToShow}
+                    capitalWeather= {capitalWeather}
                 />
             ) : countries.length > 10 || countries.length === 0 ? (
                 <p>Too many matches, specify another filter</p>

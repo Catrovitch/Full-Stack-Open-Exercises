@@ -8,7 +8,7 @@ function CreateCountryArray(countriesDictionary) {
             capital: country.capital ? country.capital : 'N/A',
             area: country.area ? country.area : 'N/A',
             languages: country.languages ? Object.values(country.languages) : 'N/A',
-            flag: country.flags && country.flags.png ? country.flags.png : 'N/A'
+            flag: country.flags && country.flags.png ? country.flags.png : 'N/A',
         });
     });
 
