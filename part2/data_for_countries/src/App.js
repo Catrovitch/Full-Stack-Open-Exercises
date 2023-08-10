@@ -6,6 +6,8 @@ import SearchCountriesByName from './utility/searchCountriesByName'
 import GetCountryByName from './utility/getCountryByName'
 import weatherService from './services/weather'
 import GetCoords from './utility/getCoords'
+import ExtractWeatherData from './utility/extractWeatherData';
+
 
 const App = () => {
   const [formFieldText, setSearchText] = useState('')
@@ -33,10 +35,40 @@ const App = () => {
       })
   }, [])
 
+  useEffect(() => {
+    if (countryToShow) {
+      weatherService.getCapitalCoords(countryToShow)
+        .then(weatherArray => {
+          setCapitalInfo(weatherArray[0]);
+        })
+        .catch(error => {
+          console.error("Error fetching capital weather:", error);
+        });
+    }
+  }, [countryToShow]);
+
+  useEffect(() => {
+    if (capitalInfo) {
+      const coords = GetCoords(capitalInfo);
+      weatherService.getWeatherByCoords(coords)
+        .then(weatherData => {
+          console.log('Raw WeatherData: ', weatherData)
+          const extracted = ExtractWeatherData(weatherData)    
+          setCapitalWeather(extracted);
+        })
+        .catch(error => {
+          console.error("Error fetching capital weather:", error);
+        });
+    }
+  }, [capitalInfo]);
+  
   const showCountry = countryName => {
     const country = GetCountryByName(countryName, countries)
     setCountryToShow(country)
   }
+
+
+
 
 
   return (

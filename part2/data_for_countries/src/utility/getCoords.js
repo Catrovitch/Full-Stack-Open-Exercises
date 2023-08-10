@@ -1,9 +1,6 @@
-
-
-const GetCoords = (capitalCoords) => {
-    console.log('GetCoords')
-    return
-}
-
-
-export default { GetCoords }
+function GetCoords(capitalCoords) {
+    return { lat: capitalCoords.lat, lon: capitalCoords.lon };
+  }
+  
+  export default GetCoords;
+  

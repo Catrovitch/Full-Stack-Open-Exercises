@@ -4,7 +4,7 @@ import CountriesList from './CountriesList';
 import CountryInfomration from './CountryInformation';
 
 const CountrySearch = ({ countries, formHeader, formFieldText, handleSearchText, showCountry, countryToShow, capitalWeather }) => {
-
+    console.log('Country Search capitalWeather: ', capitalWeather)
     return (
         <div>
             <FormField 

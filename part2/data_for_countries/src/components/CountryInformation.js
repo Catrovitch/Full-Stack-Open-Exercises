@@ -1,7 +1,6 @@
 
 
-const CountryInfomration = ({country, captialWeather}) => {
-
+const CountryInfomration = ({country, capitalWeather}) => {
     return (
         <div>
           <h1>{country.name}</h1>
@@ -18,6 +17,19 @@ const CountryInfomration = ({country, captialWeather}) => {
           </ul>
           <img src={country.flag}></img>
           <h2>Weather in {country.capital}</h2>
+          {capitalWeather && capitalWeather.temp ? (
+            <p>Temperature: {capitalWeather.temp} Celsius</p>
+            ) : (
+            <p>Temperature data is not available.</p>
+            )}
+
+            {capitalWeather && capitalWeather.icon ? (
+                <img src={`https://openweathermap.org/img/wn/${capitalWeather.icon}@2x.png`}></img>
+            ) : null}
+
+            {capitalWeather && capitalWeather.wind ? (
+            <p>wind {capitalWeather.wind} m/s</p>
+            ) : null}
         </div>
     )
 
