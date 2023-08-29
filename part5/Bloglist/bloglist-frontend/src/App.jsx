@@ -6,6 +6,7 @@ import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import usersService from './services/users'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -51,7 +52,6 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log(exception)
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
@@ -106,7 +106,7 @@ const App = () => {
   };
   
   const blogFormRef = useRef()
-
+ 
   const addBlog = (blogObject) => {  
     if (!blogObject.title || !blogObject.author || !blogObject.url) {
       setErrorMessage('Please fill in all fields.');
@@ -142,6 +142,11 @@ const App = () => {
     </Togglable>
   )
 
+  const getUser = async (user_id) => {
+    const user = await usersService.getUsernameById(user_id);
+    return user;
+  };
+  
   return (
     <div>
       <h1>Bloglist</h1>
@@ -161,7 +166,11 @@ const App = () => {
         <h2>blogs</h2>
         <ul>
           {blogs.map(blog => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog 
+              key={blog.id}
+              blog={blog}
+              user={getUser(blog.user.id)}
+           />
           ))}
         </ul>
         <Footer></Footer>
