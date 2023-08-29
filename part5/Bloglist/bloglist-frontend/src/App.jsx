@@ -11,6 +11,7 @@ const App = () => {
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -32,21 +33,6 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      content: newBlog,
-      important: Math.random() > 0.5,
-    }
-  
-    blogService
-      .create(blogObject)
-        .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setNewBlog('')
-      })
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -58,6 +44,10 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       ) 
       blogService.setToken(user.token)
+      setNotification(`${username} logged in`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -109,7 +99,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (error) {
-      console.error('Error while logging out:', error);
+      setErrorMessage('An error occured when loggin out');
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   };
 
@@ -159,14 +152,51 @@ const App = () => {
     </form>
     </div>
   );
+
+  const addBlog = (event) => {
+    event.preventDefault();
   
-
-
+    if (!newBlogTitle || !newBlogAuthor || !newBlogUrl) {
+      setErrorMessage('Please fill in all fields.');
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+      return;
+    }
+  
+    const blogObject = {
+      title: newBlogTitle,
+      author: newBlogAuthor,
+      url: newBlogUrl,
+    };
+  
+    blogService.create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog));
+        setNewBlogTitle('');
+        setNewBlogAuthor('');
+        setNewBlogUrl('');
+      })
+      .catch(error => {
+        setErrorMessage('An error occurred while adding the blog.');
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+        console.error('Error adding blog:', error);
+      });
+  
+    setNotification(`A new blog ${newBlogTitle} by ${newBlogAuthor} added`);
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  };
+  
   return (
     <div>
       <h1>Bloglist</h1>
 
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} error={true} />
+      <Notification message={notification} />
 
       {!user ? (
         loginForm()
