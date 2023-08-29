@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ createBlog, user }) => {
   const [newBlogTitle, setNewBlogTitle] = useState('');
   const [newBlogAuthor, setNewBlogAuthor] = useState('');
   const [newBlogUrl, setNewBlogUrl] = useState('');
@@ -10,7 +10,8 @@ const BlogForm = ({ createBlog }) => {
     createBlog({
       title: newBlogTitle,
       author: newBlogAuthor,
-      url: newBlogUrl
+      url: newBlogUrl,
+      user: user
     });
 
     setNewBlogTitle('');

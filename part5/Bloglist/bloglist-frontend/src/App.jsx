@@ -22,7 +22,7 @@ const App = () => {
       .then(initialBlogs => {
         setBlogs(initialBlogs)
       })
-  }, [])
+  }, [blogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -116,6 +116,7 @@ const App = () => {
       return;
     } 
     blogFormRef.current.toggleVisibility()
+
     blogService.create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog));
@@ -127,7 +128,7 @@ const App = () => {
         }, 5000)
         console.error('Error adding blog:', error);
       });
-  
+
     setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`);
     setTimeout(() => {
       setNotification(null)
@@ -137,16 +138,12 @@ const App = () => {
   const blogForm = () => (
     <Togglable buttonLabel="new Blog" ref={blogFormRef}>
       <BlogForm 
-        createBlog={addBlog}  
+        createBlog={addBlog}
+        user={user}
       />
     </Togglable>
   )
 
-  const getUser = async (user_id) => {
-    const user = await usersService.getUsernameById(user_id);
-    return user;
-  };
-  
   return (
     <div>
       <h1>Bloglist</h1>
@@ -169,7 +166,6 @@ const App = () => {
             <Blog 
               key={blog.id}
               blog={blog}
-              user={getUser(blog.user.id)}
            />
           ))}
         </ul>
