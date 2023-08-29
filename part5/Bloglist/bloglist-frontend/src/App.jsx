@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
+import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlogTitle, setNewBlogTitle] = useState('')
-  const [newBlogAuthor, setNewBlogAuthor] = useState('')
-  const [newBlogUrl, setNewBlogUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('') 
@@ -105,77 +104,21 @@ const App = () => {
       }, 5000)
     }
   };
-
-  const handleBlogTitleChange = (event) => {
-    setNewBlogTitle(event.target.value)
-  }
-
-
-  const handleBlogAuthorChange = (event) => {
-    setNewBlogAuthor(event.target.value)
-  }
-
-
-  const handleBlogUrlChange = (event) => {
-    setNewBlogUrl(event.target.value)
-  }
   
-  const blogForm = () => (
-    <div>
-    <h2>Create new</h2>
-    <form onSubmit={addBlog}>
-      <div>
-        <label>Title:</label>
-        <input
-          type="text"
-          value={newBlogTitle}
-          onChange={handleBlogTitleChange}
-        />
-      </div>
-      <div>
-        <label>Author:</label>
-        <input
-          type="text"
-          value={newBlogAuthor}
-          onChange={handleBlogAuthorChange}
-        />
-      </div>
-      <div>
-        <label>URL:</label>
-        <input
-          type="text"
-          value={newBlogUrl}
-          onChange={handleBlogUrlChange}
-        />
-      </div>
-      <button type="submit">Create</button>
-    </form>
-    </div>
-  );
+  const blogFormRef = useRef()
 
-  const addBlog = (event) => {
-    event.preventDefault();
-  
-    if (!newBlogTitle || !newBlogAuthor || !newBlogUrl) {
+  const addBlog = (blogObject) => {  
+    if (!blogObject.title || !blogObject.author || !blogObject.url) {
       setErrorMessage('Please fill in all fields.');
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
       return;
-    }
-  
-    const blogObject = {
-      title: newBlogTitle,
-      author: newBlogAuthor,
-      url: newBlogUrl,
-    };
-  
+    } 
+    blogFormRef.current.toggleVisibility()
     blogService.create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog));
-        setNewBlogTitle('');
-        setNewBlogAuthor('');
-        setNewBlogUrl('');
       })
       .catch(error => {
         setErrorMessage('An error occurred while adding the blog.');
@@ -185,12 +128,20 @@ const App = () => {
         console.error('Error adding blog:', error);
       });
   
-    setNotification(`A new blog ${newBlogTitle} by ${newBlogAuthor} added`);
+    setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`);
     setTimeout(() => {
       setNotification(null)
     }, 5000)
   };
   
+  const blogForm = () => (
+    <Togglable buttonLabel="new Blog" ref={blogFormRef}>
+      <BlogForm 
+        createBlog={addBlog}  
+      />
+    </Togglable>
+  )
+
   return (
     <div>
       <h1>Bloglist</h1>
