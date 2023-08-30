@@ -10,6 +10,7 @@ import usersService from './services/users'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [newBlog, setNewBlog] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('') 
@@ -22,7 +23,7 @@ const App = () => {
       .then(initialBlogs => {
         setBlogs(initialBlogs)
       })
-  }, [blogs])
+  }, [newBlog])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -116,10 +117,14 @@ const App = () => {
       return;
     } 
     blogFormRef.current.toggleVisibility()
-
     blogService.create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog));
+        setNewBlog(!newBlog)
+        setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`);
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       })
       .catch(error => {
         setErrorMessage('An error occurred while adding the blog.');
@@ -128,11 +133,8 @@ const App = () => {
         }, 5000)
         console.error('Error adding blog:', error);
       });
+    
 
-    setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`);
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
   };
   
   const blogForm = () => (
@@ -143,7 +145,7 @@ const App = () => {
       />
     </Togglable>
   )
-
+  
   return (
     <div>
       <h1>Bloglist</h1>

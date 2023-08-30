@@ -13,7 +13,7 @@ const Blog = ((props) => {
     padding: '10px',
     margin: '10px 0',
   };
-  
+  console.log('blog: ', blog)
   return (
     <div style={blogStyle}>
       <div>
@@ -23,7 +23,8 @@ const Blog = ((props) => {
       {visible && (
         <div>
           <p>Url: {blog.url}</p>
-          <p>Likes: {blog.likes}</p>
+          <p>Likes: {blog.likes}
+          <button> onClick={}</button></p>
           <p>Added by: {blog.user.username}</p>
         </div>
       )}
