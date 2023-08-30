@@ -10,7 +10,7 @@ import usersService from './services/users'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState(false)
+  const [blogUpdate, setBlogUpdate] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('') 
@@ -23,7 +23,7 @@ const App = () => {
       .then(initialBlogs => {
         setBlogs(initialBlogs)
       })
-  }, [newBlog])
+  }, [blogUpdate])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -120,7 +120,7 @@ const App = () => {
     blogService.create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog));
-        setNewBlog(!newBlog)
+        setBlogUpdate(!blogUpdate)
         setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`);
         setTimeout(() => {
           setNotification(null)
@@ -136,6 +136,11 @@ const App = () => {
     
 
   };
+
+  const likeBlog = (blog_id, blogObject) => {
+    blogService.update(blog_id, blogObject)
+    setBlogUpdate(!blogUpdate)
+  }
   
   const blogForm = () => (
     <Togglable buttonLabel="new Blog" ref={blogFormRef}>
@@ -168,6 +173,7 @@ const App = () => {
             <Blog 
               key={blog.id}
               blog={blog}
+              like={likeBlog}
            />
           ))}
         </ul>
