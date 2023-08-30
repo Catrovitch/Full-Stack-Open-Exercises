@@ -45,7 +45,7 @@ const App = () => {
       })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setNotification(`${username} logged in`)
       setTimeout(() => {
@@ -143,6 +143,15 @@ const App = () => {
     blogService.update(blog_id, blogObject)
     setBlogUpdate(!blogUpdate)
   }
+  const deleteBlog = async (blog_id) => {
+    try {
+      const returnValue = await blogService.deleteBlog(blog_id);
+      console.log(returnValue);
+      setBlogUpdate(!blogUpdate)
+    } catch (error) {
+      console.error('Error deleting blog:', error);
+    }
+  };
   
   const blogForm = () => (
     <Togglable buttonLabel="new Blog" ref={blogFormRef}>
@@ -176,6 +185,7 @@ const App = () => {
               key={blog.id}
               blog={blog}
               like={likeBlog}
+              deleteBlog={deleteBlog}
            />
           ))}
         </ul>

@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 
 const Blog = ((props) => {
   const blog = props.blog
-  const like =props.like
+  const like = props.like
+  const deleteBlog = props.deleteBlog
   const [visible, setVisible] = useState(false);
   const showExtra = visible ? 'Hide' : 'Show';
   const showAll = () => {
@@ -23,7 +24,10 @@ const Blog = ((props) => {
       blog.id,
       newBlogObject)
   }
-
+  const blogDeletion = (event) => {
+    event.preventDefault()
+    deleteBlog(blog.id)
+  }
   const blogStyle = {
     border: '1px solid #ccc',
     padding: '10px',
@@ -33,8 +37,9 @@ const Blog = ((props) => {
   return (
     <div style={blogStyle}>
       <div>
-        Title & Author: {blog.title} - {blog.author}
+        <p>Title & Author: {blog.title} - {blog.author}</p>
         <button onClick={showAll}>{showExtra}</button>
+        <button onClick={blogDeletion}>delete</button>
       </div>
       {visible && (
         <div>
