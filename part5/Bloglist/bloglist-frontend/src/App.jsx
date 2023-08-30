@@ -21,9 +21,11 @@ const App = () => {
     blogService
       .getAll()
       .then(initialBlogs => {
-        setBlogs(initialBlogs)
-      })
-  }, [blogUpdate])
+        const sortedBlogs = initialBlogs.sort((a, b) => b.likes - a.likes); // Sort in descending order
+        setBlogs(sortedBlogs);
+      });
+  }, [blogUpdate]);
+  
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
