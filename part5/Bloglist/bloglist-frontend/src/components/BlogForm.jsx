@@ -23,25 +23,28 @@ const BlogForm = ({ createBlog, user }) => {
       <h2>Create new</h2>
       <form onSubmit={addBlog}>
         <div>
-          <label>Title:</label>
+          <label htmlFor="titleInput">Title:</label>
           <input
             type="text"
+            id="titleInput"
             value={newBlogTitle}
             onChange={(event) => setNewBlogTitle(event.target.value)}
           />
         </div>
         <div>
-          <label>Author:</label>
+          <label htmlFor="authorInput">Author:</label>
           <input
             type="text"
+            id="authorInput"
             value={newBlogAuthor}
             onChange={(event) => setNewBlogAuthor(event.target.value)}
           />
         </div>
         <div>
-          <label>URL:</label>
+          <label htmlFor="urlInput">URL:</label>
           <input
             type="text"
+            id="urlInput"
             value={newBlogUrl}
             onChange={(event) => setNewBlogUrl(event.target.value)}
           />

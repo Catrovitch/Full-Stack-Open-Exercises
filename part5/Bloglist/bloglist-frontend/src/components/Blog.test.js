@@ -36,4 +36,30 @@ describe('Blog component', () => {
     expect(screen.getByText('Url: https://example.com')).toBeInTheDocument()
     expect(screen.getByText('Likes: 10')).toBeInTheDocument()
   })
+  test('calls like event handler twice when like button is clicked twice', async () => {
+    const sampleBlog = {
+      id: 1,
+      title: 'Sample Title',
+      author: 'John Doe',
+      url: 'https://example.com',
+      likes: 10,
+      user: {
+        id: 'user123',
+        username: 'johndoe',
+      },
+    }
+
+    const mockLikeHandler = jest.fn()
+
+    render(<Blog blog={sampleBlog} like={mockLikeHandler} />)
+
+    const showButton = screen.getByText('Show')
+    await userEvent.click(showButton)
+
+    const likeButton = screen.getByText('like')
+    await userEvent.click(likeButton)
+    await userEvent.click(likeButton)
+
+    expect(mockLikeHandler).toHaveBeenCalledTimes(2)
+  })
 })
