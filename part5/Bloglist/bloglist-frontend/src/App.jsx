@@ -13,7 +13,7 @@ const App = () => {
   const [blogUpdate, setBlogUpdate] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [notification, setNotification] = useState(null)
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
@@ -21,11 +21,11 @@ const App = () => {
     blogService
       .getAll()
       .then(initialBlogs => {
-        const sortedBlogs = initialBlogs.sort((a, b) => b.likes - a.likes); // Sort in descending order
-        setBlogs(sortedBlogs);
-      });
-  }, [blogUpdate]);
-  
+        const sortedBlogs = initialBlogs.sort((a, b) => b.likes - a.likes) // Sort in descending order
+        setBlogs(sortedBlogs)
+      })
+  }, [blogUpdate])
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -38,7 +38,7 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -66,7 +66,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -75,7 +75,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -83,9 +83,9 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
-  
+
   const loggedInUser = (user) => (
     <div>
       <p>{user.name} logged in</p>
@@ -93,51 +93,51 @@ const App = () => {
     </div>
   )
   const handleLogout = async (event) => {
-    event.preventDefault();
-  
+    event.preventDefault()
+
     try {
       window.localStorage.removeItem('loggedBlogappUser');      blogService.setToken(user.token)
       setUser('')
       setUsername('')
       setPassword('')
     } catch (error) {
-      setErrorMessage('An error occured when loggin out');
+      setErrorMessage('An error occured when loggin out')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
-  };
-  
+  }
+
   const blogFormRef = useRef()
- 
-  const addBlog = (blogObject) => {  
+
+  const addBlog = (blogObject) => {
     if (!blogObject.title || !blogObject.author || !blogObject.url) {
-      setErrorMessage('Please fill in all fields.');
+      setErrorMessage('Please fill in all fields.')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
-      return;
-    } 
+      return
+    }
     blogFormRef.current.toggleVisibility()
     blogService.create(blogObject)
       .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog));
+        setBlogs(blogs.concat(returnedBlog))
         setBlogUpdate(!blogUpdate)
-        setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`);
+        setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`)
         setTimeout(() => {
           setNotification(null)
         }, 5000)
       })
       .catch(error => {
-        setErrorMessage('An error occurred while adding the blog.');
+        setErrorMessage('An error occurred while adding the blog.')
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
-        console.error('Error adding blog:', error);
-      });
-    
+        console.error('Error adding blog:', error)
+      })
 
-  };
+
+  }
 
   const likeBlog = (blog_id, blogObject) => {
     blogService.update(blog_id, blogObject)
@@ -145,23 +145,23 @@ const App = () => {
   }
   const deleteBlog = async (blog_id) => {
     try {
-      const returnValue = await blogService.deleteBlog(blog_id);
-      console.log(returnValue);
+      const returnValue = await blogService.deleteBlog(blog_id)
+      console.log(returnValue)
       setBlogUpdate(!blogUpdate)
     } catch (error) {
-      console.error('Error deleting blog:', error);
+      console.error('Error deleting blog:', error)
     }
-  };
-  
+  }
+
   const blogForm = () => (
     <Togglable buttonLabel="new Blog" ref={blogFormRef}>
-      <BlogForm 
+      <BlogForm
         createBlog={addBlog}
         user={user}
       />
     </Togglable>
   )
-  
+
   return (
     <div>
       <h1>Bloglist</h1>
@@ -181,12 +181,12 @@ const App = () => {
         <h2>blogs</h2>
         <ul>
           {blogs.map(blog => (
-            <Blog 
+            <Blog
               key={blog.id}
               blog={blog}
               like={likeBlog}
               deleteBlog={deleteBlog}
-           />
+            />
           ))}
         </ul>
         <Footer></Footer>
