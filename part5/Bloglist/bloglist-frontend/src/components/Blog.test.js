@@ -27,5 +27,13 @@ describe('Blog component', () => {
     expect(screen.queryByText('Url: https://example.com')).not.toBeInTheDocument()
     expect(screen.queryByText('Likes: 10')).not.toBeInTheDocument()
   })
+  test('shows URL and likes when "Show" button is clicked', async () => {
+    render(<Blog blog={sampleBlog} />)
 
+    const showButton = screen.getByText('Show')
+    await userEvent.click(showButton)
+
+    expect(screen.getByText('Url: https://example.com')).toBeInTheDocument()
+    expect(screen.getByText('Likes: 10')).toBeInTheDocument()
+  })
 })
