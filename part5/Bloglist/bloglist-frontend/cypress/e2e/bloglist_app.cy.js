@@ -78,7 +78,7 @@ describe('Blog app', function() {
         cy.contains('Test Blog').parent().as('blogPost')
         cy.get('@blogPost').get('#deleteButton')
         cy.get('#LogoutButton').click()
-        cy.get('html').should('not.contain', 'delete')
+        cy.get('html').should('not.contain', 'delete') 
       })
     })
   })
