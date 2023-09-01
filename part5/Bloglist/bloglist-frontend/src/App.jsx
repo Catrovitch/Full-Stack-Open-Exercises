@@ -169,7 +169,7 @@ const App = () => {
       )}
       <div>
         <h2>blogs</h2>
-        <ul>
+        <ul id='BlogList'>
           {blogs.map(blog => (
             <Blog
               key={blog.id}

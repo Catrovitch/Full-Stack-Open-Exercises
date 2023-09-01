@@ -12,7 +12,6 @@ Cypress.Commands.add('login', ({ username, password }) => {
 
 
 Cypress.Commands.add('createBlog', ({ title, author, url, likes }) => {
-  console.log('Token: ', JSON.parse(localStorage.getItem('loggedBlogappUser')).token)
   cy.request({
     url: `${Cypress.env('BACKEND')}/blogs`,
     method: 'POST',

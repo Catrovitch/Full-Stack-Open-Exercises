@@ -73,12 +73,32 @@ describe('Blog app', function() {
         cy.get('@blogPost').get('#deleteButton').click()
         cy.get('html').should('not.contain', "Title & Author: Test Blog - Testing Blogson")
       })
-
-      it.only('Delete button only visible to correct users', function() {
+      it('Delete button only visible to correct users', function() {
         cy.contains('Test Blog').parent().as('blogPost')
         cy.get('@blogPost').get('#deleteButton')
         cy.get('#LogoutButton').click()
         cy.get('html').should('not.contain', 'delete') 
+      })
+      it('Blogs are ordered descendengly according to likes', function() {
+        cy.createBlog({title: 'Blog1', author: 'Author1', url: 'url1', likes: 1 })
+        cy.createBlog({title: 'Blog2', author: 'Author2', url: 'url2', likes: 2 })
+        cy.createBlog({title: 'Blog3', author: 'Author3', url: 'url3', likes: 3 })
+        cy.createBlog({title: 'Blog4', author: 'Author4', url: 'url4', likes: 4 })
+        cy.get('#BlogList').then(($blogs) => {
+          const blogLikes = [];
+      
+          $blogs.each((index, $blog) => {
+            const likes = parseInt(
+              Cypress.$($blog).find('.like-button').text(), 
+              10
+            );
+            blogLikes.push({ index, likes });
+          });
+
+          for (let i = 0; i < blogLikes.length - 1; i++) {
+            expect(blogLikes[i].likes).to.be.at.least(blogLikes[i + 1].likes);
+          }
+        })
       })
     })
   })
