@@ -56,17 +56,16 @@ describe('Blog app', function() {
       })
 
       it('User can like a blog', function () {
-        // Find the blog post by its title
         cy.contains('Test Blog').parent().as('blogPost')
-      
-        // Click the "Show" button to view the full blog post
         cy.get('@blogPost').get('#showButton').click()
-      
-        // Click the "Like" button to like the blog post
-        cy.get('@blogPost').get('#likeButton').click()
-      
-        // Verify that the "Likes" count has increased to 1
+        cy.get('@blogPost').get('#likeButton').click()  
         cy.get('@blogPost').get('#likes').contains('Likes: 1')
+      })
+
+      it('User can delete a blog he/she created', function () {
+        cy.contains('Test Blog').parent().as('blogPost')
+        cy.get('@blogPost').get('#deleteButton').click()
+        cy.get('html').should('not.contain', "Title & Author: Test Blog - Testing Blogson")
       })
     })
   })
