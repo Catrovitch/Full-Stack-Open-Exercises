@@ -4,13 +4,13 @@ import React, { useState } from 'react'
 const Blog = ((props) => {
   const blog = props.blog
   const like = props.like
+  const user = props.user || false
   const deleteBlog = props.deleteBlog
   const [visible, setVisible] = useState(false)
   const showExtra = visible ? 'Hide' : 'Show'
   const showAll = () => {
     setVisible(!visible)
   }
-
   const likeBlog = (event) => {
     event.preventDefault()
     const newBlogObject = {
@@ -39,7 +39,9 @@ const Blog = ((props) => {
       <div>
         <p>Title & Author: {blog.title} - {blog.author}</p>
         <button id='showButton' onClick={showAll}>{showExtra}</button>
-        <button id='deleteButton' onClick={blogDeletion}>delete</button>
+        {blog.user.id === user.id && (
+          <button id='deleteButton' onClick={blogDeletion}>delete</button>
+        )}
       </div>
       {visible && (
         <div>

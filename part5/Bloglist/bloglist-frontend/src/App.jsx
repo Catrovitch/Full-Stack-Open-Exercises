@@ -45,7 +45,7 @@ const App = () => {
         username, password,
       })
       window.localStorage.setItem(
-        'loggedBlogAppUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
       setNotification(`${username} logged in`)
@@ -78,14 +78,15 @@ const App = () => {
   const loggedInUser = (user) => (
     <div>
       <p>{user.name} logged in</p>
-      <button type="submit" onClick={handleLogout}>logout</button>
+      <button id='LogoutButton' type="submit" onClick={handleLogout}>logout</button>
     </div>
   )
   const handleLogout = async (event) => {
     event.preventDefault()
 
     try {
-      window.localStorage.removeItem('loggedBlogappUser');      blogService.setToken(user.token)
+      window.localStorage.removeItem('loggedBlogappUser');      
+      blogService.setToken(user.token)
       setUser('')
       setUsername('')
       setPassword('')
@@ -175,6 +176,7 @@ const App = () => {
               blog={blog}
               like={likeBlog}
               deleteBlog={deleteBlog}
+              user={user}
             />
           ))}
         </ul>

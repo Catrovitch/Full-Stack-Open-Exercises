@@ -2,12 +2,18 @@
 describe('Blog app', function() {
   beforeEach(function() {
     cy.request('POST',`${Cypress.env('BACKEND')}/testing/reset`)
-    const user = {
+    const user1 = {
       name: 'Gimli son of Gloin',
       username: 'Gimli',
       password: 'MyAxe123'
     }
-    cy.request('POST', `${Cypress.env('BACKEND')}/users`, user)
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, user1)
+    const user2 = {
+      name: 'Gandalf the Grey',
+      username: 'Gandalf',
+      password: 'Pipeweed123'
+    }
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, user2)
     cy.visit('')
   })
 
@@ -66,6 +72,13 @@ describe('Blog app', function() {
         cy.contains('Test Blog').parent().as('blogPost')
         cy.get('@blogPost').get('#deleteButton').click()
         cy.get('html').should('not.contain', "Title & Author: Test Blog - Testing Blogson")
+      })
+
+      it.only('Delete button only visible to correct users', function() {
+        cy.contains('Test Blog').parent().as('blogPost')
+        cy.get('@blogPost').get('#deleteButton')
+        cy.get('#LogoutButton').click()
+        cy.get('html').should('not.contain', 'delete')
       })
     })
   })
