@@ -45,7 +45,7 @@ const App = () => {
         username, password,
       })
       window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
+        'loggedBlogAppUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
       setNotification(`${username} logged in`)
@@ -143,7 +143,7 @@ const App = () => {
   }
 
   const blogForm = () => (
-    <Togglable buttonLabel="new Blog" ref={blogFormRef}>
+    <Togglable id="newBlogButton" buttonLabel="new Blog" ref={blogFormRef}>
       <BlogForm
         createBlog={addBlog}
         user={user}

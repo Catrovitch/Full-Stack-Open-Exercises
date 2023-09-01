@@ -38,14 +38,14 @@ const Blog = ((props) => {
     <div style={blogStyle}>
       <div>
         <p>Title & Author: {blog.title} - {blog.author}</p>
-        <button onClick={showAll}>{showExtra}</button>
-        <button onClick={blogDeletion}>delete</button>
+        <button id='showButton' onClick={showAll}>{showExtra}</button>
+        <button id='deleteButton' onClick={blogDeletion}>delete</button>
       </div>
       {visible && (
         <div>
           <p>Url: {blog.url}</p>
-          <p>Likes: {blog.likes}
-            <button onClick={likeBlog}> like</button></p>
+          <p id='likes'>Likes: {blog.likes}
+            <button id='likeButton' onClick={likeBlog}> like</button></p>
           <p>Added by: {blog.user.username}</p>
         </div>
       )}
