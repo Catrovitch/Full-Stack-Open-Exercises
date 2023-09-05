@@ -9,12 +9,12 @@ const Anecdote = ({anecdote, handleClick}) => {
     borderWidth: 1
   }
   return(
-    <p onClick={handleClick}>
+    <div onClick={handleClick}>
       <p>{anecdote.content}</p>
       <p>{anecdote.votes}
       <button onClick={(handleClick)}>vote</button>
       </p>
-    </p>
+    </div>
   )
 }
 
@@ -23,7 +23,7 @@ const Anecdotes = () => {
   const anecdotes = useSelector(state => state)
 
   return(
-    <p>
+    <div>
       {anecdotes.map(anecdote =>
         <Anecdote
         key={anecdote.id}
@@ -32,7 +32,7 @@ const Anecdotes = () => {
           dispatch(vote(anecdote.id))}
         />
       )}
-    </p>
+    </div>
   )
 }
 
