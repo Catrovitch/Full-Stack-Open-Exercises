@@ -19,13 +19,20 @@ const Anecdote = ({anecdote, handleClick}) => {
 }
 
 const AnecdoteList = () => {
-  const dispatch = useDispatch()
-  const anecdotes = useSelector(state => state)
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter);
+  const anecdotes = useSelector(state => state.anecdotes);
 
-  return(
+  const filteredAnecdotes = filter === 'ALL'
+    ? anecdotes
+    : anecdotes.filter(anecdote =>
+        anecdote.content.toLowerCase().includes(filter.toLowerCase())
+      );
+
+  return (
     <div>
-      {anecdotes
-        .sort((a, b) => b.votes - a.votes) // Sort anecdotes in descending order of votes
+      {filteredAnecdotes
+        .sort((a, b) => b.votes - a.votes)
         .map(anecdote => (
           <Anecdote
             key={anecdote.id}
@@ -35,7 +42,8 @@ const AnecdoteList = () => {
         ))
       }
     </div>
-  )
-}
+  );
+};
+
 
 export default AnecdoteList
