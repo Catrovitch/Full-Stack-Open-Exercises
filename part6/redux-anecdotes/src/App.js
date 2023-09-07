@@ -1,9 +1,9 @@
 import AnecdoteList from './components/AnecdoteList'
 import AnecdoteForm from './components/AnecdoteForm'
 import VisibilityFilter from './components/VisibilityFilter'
-const App = () => {
 
-  
+
+const App = () => {  
   return (
     <div>
       <h2>Anecdotes</h2>

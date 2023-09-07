@@ -3,11 +3,6 @@ import { vote } from '../reducers/anecdoteReducer'
 
 
 const Anecdote = ({anecdote, handleClick}) => {
-  const style = {
-    border: 'solid',
-    padding: 10,
-    borderWidth: 1
-  }
   return(
     <div onClick={handleClick}>
       <p>{anecdote.content}</p>
@@ -22,28 +17,27 @@ const AnecdoteList = () => {
   const dispatch = useDispatch();
   const filter = useSelector(state => state.filter);
   const anecdotes = useSelector(state => state.anecdotes);
-
   const filteredAnecdotes = filter === 'ALL'
     ? anecdotes
     : anecdotes.filter(anecdote =>
         anecdote.content.toLowerCase().includes(filter.toLowerCase())
       );
-
+  
+  const sortedAnecdotes = [...filteredAnecdotes].sort((a, b) => b.votes - a.votes);
+  
   return (
     <div>
-      {filteredAnecdotes
-        .sort((a, b) => b.votes - a.votes)
-        .map(anecdote => (
-          <Anecdote
-            key={anecdote.id}
-            anecdote={anecdote}
-            handleClick={() => dispatch(vote(anecdote.id))}
-          />
-        ))
-      }
+      {sortedAnecdotes.map(anecdote => (
+        <Anecdote
+          key={anecdote.id}
+          anecdote={anecdote}
+          handleClick={() => dispatch(vote(anecdote.id))}
+        />
+      ))}
     </div>
   );
 };
+
 
 
 export default AnecdoteList

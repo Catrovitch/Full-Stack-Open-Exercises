@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux';
-import { filterChange } from '../reducers/filterReducer'
+import { setFilter } from '../reducers/filterReducer'
 
 const VisibilityFilter = (props) => {
   const dispatch = useDispatch();
 
   const handleFilterChange = (event) => {
     const filterValue = event.target.value;
-    dispatch(filterChange(filterValue));
+    dispatch(setFilter(filterValue));
   };
 
   return (
