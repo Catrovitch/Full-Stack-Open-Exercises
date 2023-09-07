@@ -11,7 +11,6 @@ const anecdoteSlice = createSlice({
       const indexToUpdate = state.findIndex((anecdote) => anecdote.id === updatedAnecdote.id);
 
       if (indexToUpdate !== -1) {
-        // If the anecdote is found, update its votes field
         state[indexToUpdate].votes = updatedAnecdote.votes;
       }
     },
