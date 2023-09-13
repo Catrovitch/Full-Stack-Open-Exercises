@@ -14,7 +14,14 @@ const App = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
     },
-  })
+    onError: (error) => {
+      dispatch({ type: 'ERROR' });
+
+      setTimeout(() => {
+        dispatch({ type: 'RESET' });
+      }, 5000);
+    },
+  });
   const updateAnecdoteMutation = useMutation(updateAnecdote, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })

@@ -3,10 +3,9 @@ const AnecdoteForm = ({ addAnecdote}) => {
   const onCreate = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
-    event.target.anecdote.value = ''
-    if (content.length >= 5) { 
-      addAnecdote(content)}
-}
+    event.target.anecdote.value = '' 
+    addAnecdote(content)
+  }
 
   return (
     <div>

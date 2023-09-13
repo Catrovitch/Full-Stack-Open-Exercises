@@ -7,6 +7,9 @@ const notificationReducer = (state, action) => {
 
         case "RESET":
             return null
+
+        case "ERROR":
+            return 'too short anecdote, must have length 5 or more'
     }
 }
 
