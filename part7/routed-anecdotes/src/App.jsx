@@ -71,7 +71,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -81,6 +81,11 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
+    props.setNotification(`a new anecdote ${content} created!`)
+    setTimeout(() => {
+      props.setNotification(null);
+    }, 5000);
   }
 
   return (
@@ -106,6 +111,8 @@ const CreateNew = (props) => {
 
 }
 
+
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -124,7 +131,8 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+
+  const [notification, setNotification] = useState('') 
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
@@ -150,11 +158,12 @@ const App = () => {
       <Router>
         <h1>Software anecdotes</h1>
         <Menu />
+        {notification && <p>{notification}</p>} {/* Use a ternary conditional here */}
         <Routes>
           <Route path="/anecdote/:id" element={<Anecdote anecdotes={anecdotes} />} />
           <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/create_new" element={<CreateNew addNew={addNew} />} />
+          <Route path="/create_new" element={<CreateNew addNew={addNew} setNotification={setNotification}/>} />
         </Routes>
         <Footer />
       </Router>
