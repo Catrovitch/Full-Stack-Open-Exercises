@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom/client'
 import { useState } from 'react'
+import { useField } from './hooks'
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
-  Navigate,
   useParams,
   useNavigate,
 } from "react-router-dom"
@@ -31,7 +31,7 @@ const Anecdote = ({ anecdotes }) => {
   const anecdote = anecdotes.find(n => n.id === Number(id))
   return (
     <div>
-      <p>{anecdote.content}</p>
+      <p>{anecdote.name}</p>
       <p>Votes: {anecdote.votes}</p>
     </div>
   )
@@ -40,7 +40,7 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdote/${anecdote.id}`} >{anecdote.content}</Link></li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdote/${anecdote.id}`} >{anecdote.name}</Link></li>)}
     </ul>
   </div>
 )
@@ -68,21 +68,27 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
   const navigate = useNavigate()
+  const name = props.name
+  const author = props.author
+  const info = props.info
+
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    const newName = props.name.value;
+    const newAuthor = props.author.value;
+    const newInfo = props.info.value;
+
     props.addNew({
-      content,
-      author,
-      info,
-      votes: 0
-    })
+      name: newName,
+      author: newAuthor,
+      info: newInfo,
+      votes: 0,
+    });
     navigate('/')
-    props.setNotification(`a new anecdote ${content} created!`)
+
+    props.setNotification(`a new anecdote ${newName} created!`)
     setTimeout(() => {
       props.setNotification(null);
     }, 5000);
@@ -93,16 +99,16 @@ const CreateNew = (props) => {
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          name
+          <input {...name} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author}/>
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...info}/>
         </div>
         <button>create</button>
       </form>
@@ -114,16 +120,20 @@ const CreateNew = (props) => {
 
 
 const App = () => {
+  const name = useField('text')
+  const author = useField('text')
+  const info = useField('text')
+
   const [anecdotes, setAnecdotes] = useState([
     {
-      content: 'If it hurts, do it more often',
+      name: 'If it hurts, do it more often',
       author: 'Jez Humble',
       info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
       id: 1
     },
     {
-      content: 'Premature optimization is the root of all evil',
+      name: 'Premature optimization is the root of all evil',
       author: 'Donald Knuth',
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
@@ -133,6 +143,8 @@ const App = () => {
 
 
   const [notification, setNotification] = useState('') 
+
+
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
@@ -163,7 +175,12 @@ const App = () => {
           <Route path="/anecdote/:id" element={<Anecdote anecdotes={anecdotes} />} />
           <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
           <Route path="/about" element={<About />} />
-          <Route path="/create_new" element={<CreateNew addNew={addNew} setNotification={setNotification}/>} />
+          <Route path="/create_new" element={<CreateNew 
+                                                addNew={addNew}
+                                                setNotification={setNotification}
+                                                name={name}
+                                                author={author}
+                                                info={info}/>} />
         </Routes>
         <Footer />
       </Router>
