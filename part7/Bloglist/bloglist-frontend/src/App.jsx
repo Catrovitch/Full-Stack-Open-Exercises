@@ -8,7 +8,6 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [blogUpdate, setBlogUpdate] = useState(false)
@@ -19,14 +18,11 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService
-      .getAll()
-      .then(initialBlogs => {
-        const sortedBlogs = initialBlogs.sort((a, b) => b.likes - a.likes) // Sort in descending order
-        setBlogs(sortedBlogs)
-      })
+    blogService.getAll().then((initialBlogs) => {
+      const sortedBlogs = initialBlogs.sort((a, b) => b.likes - a.likes) // Sort in descending order
+      setBlogs(sortedBlogs)
+    })
   }, [blogUpdate])
-
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -42,11 +38,10 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password,
+        username,
+        password,
       })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setNotification(`${username} logged in`)
       setTimeout(() => {
@@ -78,14 +73,16 @@ const App = () => {
   const loggedInUser = (user) => (
     <div>
       <p>{user.name} logged in</p>
-      <button id='LogoutButton' type="submit" onClick={handleLogout}>logout</button>
+      <button id="LogoutButton" type="submit" onClick={handleLogout}>
+        logout
+      </button>
     </div>
   )
   const handleLogout = async (event) => {
     event.preventDefault()
 
     try {
-      window.localStorage.removeItem('loggedBlogappUser');      
+      window.localStorage.removeItem('loggedBlogappUser')
       blogService.setToken(user.token)
       setUser('')
       setUsername('')
@@ -109,24 +106,25 @@ const App = () => {
       return
     }
     blogFormRef.current.toggleVisibility()
-    blogService.create(blogObject)
-      .then(returnedBlog => {
+    blogService
+      .create(blogObject)
+      .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog))
         setBlogUpdate(!blogUpdate)
-        setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`)
+        setNotification(
+          `A new blog ${blogObject.title} by ${blogObject.author} added`,
+        )
         setTimeout(() => {
           setNotification(null)
         }, 5000)
       })
-      .catch(error => {
+      .catch((error) => {
         setErrorMessage('An error occurred while adding the blog.')
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
         console.error('Error adding blog:', error)
       })
-
-
   }
 
   const likeBlog = (blog_id, blogObject) => {
@@ -145,10 +143,7 @@ const App = () => {
 
   const blogForm = () => (
     <Togglable id="newBlogButton" buttonLabel="new Blog" ref={blogFormRef}>
-      <BlogForm
-        createBlog={addBlog}
-        user={user}
-      />
+      <BlogForm createBlog={addBlog} user={user} />
     </Togglable>
   )
 
@@ -169,8 +164,8 @@ const App = () => {
       )}
       <div>
         <h2>blogs</h2>
-        <ul id='BlogList'>
-          {blogs.map(blog => (
+        <ul id="BlogList">
+          {blogs.map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}

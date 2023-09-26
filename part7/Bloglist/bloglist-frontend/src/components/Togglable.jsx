@@ -11,10 +11,9 @@ const Togglable = forwardRef((props, refs) => {
     setVisible(!visible)
   }
 
-
   useImperativeHandle(refs, () => {
     return {
-      toggleVisibility
+      toggleVisibility,
     }
   })
 
@@ -29,11 +28,10 @@ const Togglable = forwardRef((props, refs) => {
       </div>
     </div>
   )
-
 })
 
 Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired
+  buttonLabel: PropTypes.string.isRequired,
 }
 Togglable.displayName = 'Togglable'
 

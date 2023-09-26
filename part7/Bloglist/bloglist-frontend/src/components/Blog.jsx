@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
-
-const Blog = ((props) => {
+const Blog = (props) => {
   const blog = props.blog
   const like = props.like
   const user = props.user || false
@@ -18,11 +17,9 @@ const Blog = ((props) => {
       title: blog.title,
       author: blog.author,
       user: blog.user.id,
-      likes: blog.likes+1
+      likes: blog.likes + 1,
     }
-    like(
-      blog.id,
-      newBlogObject)
+    like(blog.id, newBlogObject)
   }
   const blogDeletion = (event) => {
     event.preventDefault()
@@ -37,23 +34,33 @@ const Blog = ((props) => {
   return (
     <div style={blogStyle}>
       <div>
-        <p>Title & Author: {blog.title} - {blog.author}</p>
-        <button id='showButton' onClick={showAll}>{showExtra}</button>
+        <p>
+          Title & Author: {blog.title} - {blog.author}
+        </p>
+        <button id="showButton" onClick={showAll}>
+          {showExtra}
+        </button>
         {blog.user.id === user.id && (
-          <button id='deleteButton' onClick={blogDeletion}>delete</button>
+          <button id="deleteButton" onClick={blogDeletion}>
+            delete
+          </button>
         )}
       </div>
       {visible && (
         <div>
           <p>Url: {blog.url}</p>
-          <p id='likes'>Likes: {blog.likes}
-            <button id='likeButton' onClick={likeBlog}> like</button></p>
+          <p id="likes">
+            Likes: {blog.likes}
+            <button id="likeButton" onClick={likeBlog}>
+              {' '}
+              like
+            </button>
+          </p>
           <p>Added by: {blog.user.username}</p>
         </div>
       )}
     </div>
   )
-})
+}
 
 export default Blog
-

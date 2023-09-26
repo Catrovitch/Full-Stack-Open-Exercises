@@ -21,10 +21,14 @@ describe('Blog component', () => {
     render(<Blog blog={sampleBlog} />)
 
     // Expect title and author to be rendered
-    expect(screen.getByText('Title & Author: Sample Title - John Doe')).toBeInTheDocument()
+    expect(
+      screen.getByText('Title & Author: Sample Title - John Doe'),
+    ).toBeInTheDocument()
 
     // Expect URL and likes to not be rendered by default
-    expect(screen.queryByText('Url: https://example.com')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Url: https://example.com'),
+    ).not.toBeInTheDocument()
     expect(screen.queryByText('Likes: 10')).not.toBeInTheDocument()
   })
   test('shows URL and likes when "Show" button is clicked', async () => {
