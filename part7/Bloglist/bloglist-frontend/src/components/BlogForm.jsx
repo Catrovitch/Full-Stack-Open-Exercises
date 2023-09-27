@@ -1,21 +1,33 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
+import { setNotificationMessage } from '../reducers/notificationReducer'
 
 const BlogForm = ({ createBlog, user }) => {
-  const [newBlogTitle, setNewBlogTitle] = useState('')
-  const [newBlogAuthor, setNewBlogAuthor] = useState('')
-  const [newBlogUrl, setNewBlogUrl] = useState('')
+
+  const dispatch = useDispatch()
+
+  const [newBlogTitle, setNewBlogTitle] = useState(null)
+  const [newBlogAuthor, setNewBlogAuthor] = useState(null)
+  const [newBlogUrl, setNewBlogUrl] = useState(null)
 
   const addBlog = (event) => {
     event.preventDefault()
+    if ( !newBlogTitle || !newBlogAuthor || !newBlogUrl ) {
+      dispatch(setNotificationMessage({ message: 'Please fill in all fields', timeout: 5, isError: true }))
+      return
+    } else {
     createBlog({
       title: newBlogTitle,
       author: newBlogAuthor,
       url: newBlogUrl,
     })
-
+    
+    dispatch(setNotificationMessage({ message: `A new blog ${newBlogTitle} by ${newBlogAuthor} added`, timeout: 5, isError: false }))
     setNewBlogTitle('')
     setNewBlogAuthor('')
     setNewBlogUrl('')
+    }
   }
 
   return (

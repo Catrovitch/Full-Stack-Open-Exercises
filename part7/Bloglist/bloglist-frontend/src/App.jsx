@@ -7,8 +7,12 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
+
+  const dispatch = useDispatch()
+
   const [blogs, setBlogs] = useState([])
   const [blogUpdate, setBlogUpdate] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -19,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((initialBlogs) => {
-      const sortedBlogs = initialBlogs.sort((a, b) => b.likes - a.likes) // Sort in descending order
+      const sortedBlogs = initialBlogs.sort((a, b) => b.likes - a.likes) 
       setBlogs(sortedBlogs)
     })
   }, [blogUpdate])
@@ -98,25 +102,12 @@ const App = () => {
   const blogFormRef = useRef()
 
   const addBlog = (blogObject) => {
-    if (!blogObject.title || !blogObject.author || !blogObject.url) {
-      setErrorMessage('Please fill in all fields.')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-      return
-    }
     blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
       .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog))
         setBlogUpdate(!blogUpdate)
-        setNotification(
-          `A new blog ${blogObject.title} by ${blogObject.author} added`,
-        )
-        setTimeout(() => {
-          setNotification(null)
-        }, 5000)
       })
       .catch((error) => {
         setErrorMessage('An error occurred while adding the blog.')
@@ -151,8 +142,7 @@ const App = () => {
     <div>
       <h1>Bloglist</h1>
 
-      <Notification message={errorMessage} error={true} />
-      <Notification message={notification} />
+      <Notification/>
 
       {!user ? (
         loginForm()
