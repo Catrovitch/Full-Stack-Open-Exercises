@@ -1,29 +1,30 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setNotification } from '../reducers/notificationReducer'
+import { createBlog } from '../reducers/blogReducer'
 import { setNotificationMessage } from '../reducers/notificationReducer'
 
-const BlogForm = ({ createBlog, user }) => {
+const BlogForm = () => {
 
   const dispatch = useDispatch()
 
-  const [newBlogTitle, setNewBlogTitle] = useState(null)
-  const [newBlogAuthor, setNewBlogAuthor] = useState(null)
-  const [newBlogUrl, setNewBlogUrl] = useState(null)
+  const [newBlogTitle, setNewBlogTitle] = useState('')
+  const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  const [newBlogUrl, setNewBlogUrl] = useState('')
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
     if ( !newBlogTitle || !newBlogAuthor || !newBlogUrl ) {
       dispatch(setNotificationMessage({ message: 'Please fill in all fields', timeout: 5, isError: true }))
       return
     } else {
-    createBlog({
-      title: newBlogTitle,
-      author: newBlogAuthor,
-      url: newBlogUrl,
-    })
-    
+      const content = {
+        title: newBlogTitle,
+        author: newBlogAuthor,
+        url: newBlogUrl,
+    }
+    dispatch(createBlog(content))
     dispatch(setNotificationMessage({ message: `A new blog ${newBlogTitle} by ${newBlogAuthor} added`, timeout: 5, isError: false }))
+    
     setNewBlogTitle('')
     setNewBlogAuthor('')
     setNewBlogUrl('')

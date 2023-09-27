@@ -1,29 +1,26 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { blogLike, blogDelete, updateBlogs } from '../reducers/blogReducer'
+
 
 const Blog = (props) => {
   const blog = props.blog
-  const like = props.like
-  const user = props.user || false
-  const deleteBlog = props.deleteBlog
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user) || false
   const [visible, setVisible] = useState(false)
   const showExtra = visible ? 'Hide' : 'Show'
+
+
   const showAll = () => {
     setVisible(!visible)
   }
   const likeBlog = (event) => {
     event.preventDefault()
-    const newBlogObject = {
-      url: blog.url,
-      title: blog.title,
-      author: blog.author,
-      user: blog.user.id,
-      likes: blog.likes + 1,
-    }
-    like(blog.id, newBlogObject)
+    dispatch(blogLike(blog.id))
   }
-  const blogDeletion = (event) => {
+  const deleteThisBlog = (event) => {
     event.preventDefault()
-    deleteBlog(blog.id)
+    dispatch(blogDelete(blog.id))
   }
   const blogStyle = {
     border: '1px solid #ccc',
@@ -41,7 +38,7 @@ const Blog = (props) => {
           {showExtra}
         </button>
         {blog.user.id === user.id && (
-          <button id="deleteButton" onClick={blogDeletion}>
+          <button id="deleteButton" onClick={deleteThisBlog}>
             delete
           </button>
         )}
@@ -56,7 +53,7 @@ const Blog = (props) => {
               like
             </button>
           </p>
-          <p>Added by: {blog.user.username}</p>
+          <p>Added by: {user.username}</p>
         </div>
       )}
     </div>
