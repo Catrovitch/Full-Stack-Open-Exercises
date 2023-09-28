@@ -7,11 +7,13 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import { useDispatch } from 'react-redux'
-import { initializeBlogs, updateBlogs } from './reducers/blogReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 import { setLogin, setLogout } from './reducers/userReducer'
-
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
 
 const App = () => {
 
@@ -26,7 +28,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const user = useSelector(state => state.user)
-  const blogs = useSelector(state => state.blogs)
+
 
   const dispatch = useDispatch()
 
@@ -48,7 +50,6 @@ const App = () => {
     setUsername('')
     setPassword('')
     dispatch(setLogout())
-
   }
 
   const loginForm = () => {
