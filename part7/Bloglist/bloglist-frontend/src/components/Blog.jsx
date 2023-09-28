@@ -53,7 +53,7 @@ const Blog = (props) => {
               like
             </button>
           </p>
-          <p>Added by: {user.username}</p>
+          <p>Added by: {blog.user.username}</p>
         </div>
       )}
     </div>
