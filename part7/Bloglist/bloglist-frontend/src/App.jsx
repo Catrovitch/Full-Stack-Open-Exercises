@@ -7,6 +7,8 @@ import blogService from './services/blogs'
 import { useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import IfUserIsLoggedIn from './components/IfUserIsLoggedIn'
+import UsersBlogs from './components/UsersBlogs'
+
 
 import {
   BrowserRouter as Router,
@@ -32,13 +34,19 @@ const App = () => {
   }, [blogIsUpdated])
 
 
+
   return (
     <div>
-      <h1>Bloglist</h1>
-      <Notification/>
-      <IfUserIsLoggedIn></IfUserIsLoggedIn>
-      <BlogList></BlogList>
-      <Footer></Footer>
+      <Router>
+        <h1>Blogs</h1>
+        <Notification/>
+        <IfUserIsLoggedIn></IfUserIsLoggedIn>
+        <Routes>
+          <Route path="/" element={<BlogList></BlogList>} />
+          <Route path="/users" element={<UsersBlogs></UsersBlogs>} />
+        </Routes>
+        <Footer></Footer>
+      </Router>
     </div>
   )
 }

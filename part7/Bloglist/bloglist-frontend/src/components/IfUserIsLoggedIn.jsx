@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Togglable from './Togglable'
-import BlogForm from './BlogForm'
 import LoginForm from './LoginForm'
 import blogService from '../services/blogs'
 import { useDispatch } from 'react-redux'
@@ -61,14 +59,7 @@ const IfUserIsLoggedIn = () => {
     </div>
   )
 
-  const blogFormRef = useRef()
 
-
-  const blogForm = () => (
-    <Togglable id="newBlogButton" buttonLabel="new Blog" ref={blogFormRef}>
-      <BlogForm />
-    </Togglable>
-  )
 
   return (
     <div>
@@ -77,7 +68,6 @@ const IfUserIsLoggedIn = () => {
       ) : (
         <div>
           {loggedInUser(user)}
-          {blogForm()}
         </div>
       )}
     </div>
