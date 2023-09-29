@@ -10,10 +10,11 @@ import IfUserIsLoggedIn from './components/IfUserIsLoggedIn'
 import UsersBlogs from './components/UsersBlogs'
 import UserPage from './components/UserPage'
 import BlogPage from './components/BlogPage'
+import Menu from './components/Menu'
 
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, useNavigate
 } from 'react-router-dom'
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
     <div>
       <Router>
         <h1>Blogs</h1>
+        <Menu />
         <Notification/>
         <IfUserIsLoggedIn></IfUserIsLoggedIn>
         <Routes>
