@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { blogLike } from '../reducers/blogReducer'
 import blogService from "../services/blogs"
-
+import blogReducer from "../reducers/blogReducer";
+import CommentForm from "./CommentForm";
 
 const BlogPage = () => {
     const { id } = useParams()
@@ -12,11 +13,11 @@ const BlogPage = () => {
         title: '',
         url: '',
         likes: 0,
+        comments: [],
         user: {
           username: ''
         }
       })
-    const [comments, setComments] = useState([])
 
     const blogs = useSelector(state => state.blogs) || false
 
@@ -24,17 +25,11 @@ const BlogPage = () => {
         const fetchData = async () => {
             try {
                 const blogData = await blogService.getBlogById(id)
-                const blogComments = await blogService.getBlogComments(id)
 
                 if (blogData) {
                     setBlogInfo(blogData)
                 } else {
                     console.log('Blog data not found')
-                }
-                if (blogComments) {
-                    setComments(blogComments)
-                } else {
-                    console.log('Blog comments not found')
                 }
             } catch (error) {
                 console.error('Error fetching blog data: ', error)
@@ -57,8 +52,9 @@ const BlogPage = () => {
             <button id='likeButton' onClick={likeBlog}>like</button></p>
             <p>added by {blogInfo.user.username}</p>
             <h3>comments</h3>
+            <CommentForm blogId={id}></CommentForm>
             <ul>
-                {comments.map((comment, index) => (
+                {blogInfo.comments.map((comment, index) => (
                 <li key={index}>{comment}</li>
                 ))}
             </ul>

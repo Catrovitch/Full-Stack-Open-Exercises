@@ -19,10 +19,16 @@ const getBlogById = async (id) => {
   return response.data
 }
 
-const getBlogComments = async (id) => {
-  const response = await axios.get(`${baseUrl}/${id}/comments`)
-  return response.data
-}
+const addBlogComment = async (id, commentText) => {
+  try {
+    const response = await axios.post(`${baseUrl}/${id}/comments`, { comment: commentText });
+    return response.data;
+
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    throw error;
+  }
+};
 
 const create = async (newObject) => {
   const config = {
@@ -49,4 +55,4 @@ const deleteBlog = async (id) => {
   }
 }
 
-export default { getAll, getBlogById, getBlogComments, create, update, setToken, deleteBlog }
+export default { getAll, getBlogById, addBlogComment, create, update, setToken, deleteBlog }
