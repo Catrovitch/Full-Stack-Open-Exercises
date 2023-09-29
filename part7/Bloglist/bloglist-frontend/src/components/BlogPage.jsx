@@ -16,6 +16,7 @@ const BlogPage = () => {
           username: ''
         }
       })
+    const [comments, setComments] = useState([])
 
     const blogs = useSelector(state => state.blogs) || false
 
@@ -23,11 +24,17 @@ const BlogPage = () => {
         const fetchData = async () => {
             try {
                 const blogData = await blogService.getBlogById(id)
+                const blogComments = await blogService.getBlogComments(id)
 
                 if (blogData) {
                     setBlogInfo(blogData)
                 } else {
                     console.log('Blog data not found')
+                }
+                if (blogComments) {
+                    setComments(blogComments)
+                } else {
+                    console.log('Blog comments not found')
                 }
             } catch (error) {
                 console.error('Error fetching blog data: ', error)
@@ -49,6 +56,12 @@ const BlogPage = () => {
             <p>{blogInfo.likes} likes
             <button id='likeButton' onClick={likeBlog}>like</button></p>
             <p>added by {blogInfo.user.username}</p>
+            <h3>comments</h3>
+            <ul>
+                {comments.map((comment, index) => (
+                <li key={index}>{comment}</li>
+                ))}
+            </ul>
         </div>
     )
 }
