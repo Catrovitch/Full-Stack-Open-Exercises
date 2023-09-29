@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import IfUserIsLoggedIn from './components/IfUserIsLoggedIn'
 import UsersBlogs from './components/UsersBlogs'
-
+import UserPage from './components/UserPage'
 
 import {
   BrowserRouter as Router,
@@ -44,6 +44,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<BlogList></BlogList>} />
           <Route path="/users" element={<UsersBlogs></UsersBlogs>} />
+          <Route path="/users/:id" element={<UserPage></UserPage>} />
         </Routes>
         <Footer></Footer>
       </Router>

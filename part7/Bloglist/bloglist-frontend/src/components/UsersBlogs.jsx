@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import usersService from "../services/users";
 
 const UsersBlogs = () => {
@@ -12,6 +13,7 @@ const UsersBlogs = () => {
 
         // Transform the data to include both username and number of blogs
         const userData = allUsers.map((user) => ({
+          id: user.id,
           username: user.username,
           numberOfBlogs: user.blogs.length,
         }));
@@ -38,7 +40,9 @@ const UsersBlogs = () => {
         <tbody>
           {usersAndBlogs.map((user, index) => (
             <tr key={index}>
-              <td>{user.username}</td>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.username}</Link>
+              </td>
               <td>{user.numberOfBlogs}</td>
             </tr>
           ))}
