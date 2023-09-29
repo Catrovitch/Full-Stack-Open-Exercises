@@ -9,6 +9,7 @@ import { initializeBlogs } from './reducers/blogReducer'
 import IfUserIsLoggedIn from './components/IfUserIsLoggedIn'
 import UsersBlogs from './components/UsersBlogs'
 import UserPage from './components/UserPage'
+import BlogPage from './components/BlogPage'
 
 import {
   BrowserRouter as Router,
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/" element={<BlogList></BlogList>} />
           <Route path="/users" element={<UsersBlogs></UsersBlogs>} />
           <Route path="/users/:id" element={<UserPage></UserPage>} />
+          <Route path="/blogs/:id" element={<BlogPage></BlogPage>} />
         </Routes>
         <Footer></Footer>
       </Router>
