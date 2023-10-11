@@ -11,6 +11,7 @@ import UsersBlogs from './components/UsersBlogs'
 import UserPage from './components/UserPage'
 import BlogPage from './components/BlogPage'
 import Menu from './components/Menu'
+import { Container } from '@mui/material'
 
 import {
   BrowserRouter as Router,
@@ -38,7 +39,7 @@ const App = () => {
 
 
   return (
-    <div>
+    <Container>
       <Router>
         <h1>Blogs</h1>
         <Menu />
@@ -52,7 +53,7 @@ const App = () => {
         </Routes>
         <Footer></Footer>
       </Router>
-    </div>
+    </Container>
   )
 }
 

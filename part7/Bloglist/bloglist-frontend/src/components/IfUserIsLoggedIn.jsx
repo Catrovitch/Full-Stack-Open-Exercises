@@ -4,7 +4,7 @@ import LoginForm from './LoginForm'
 import blogService from '../services/blogs'
 import { useDispatch } from 'react-redux'
 import { setLogin, setLogout } from '../reducers/userReducer'
-
+import { Button } from '@mui/material'
 
 const IfUserIsLoggedIn = () => {
 
@@ -53,9 +53,9 @@ const IfUserIsLoggedIn = () => {
   const loggedInUser = (user) => (
     <div>
       <p>{user.name} logged in</p>
-      <button id="LogoutButton" type="submit" onClick={handleLogout}>
+      <Button id="LogoutButton" type="submit" onClick={handleLogout} variant="contained" color="primary">
         logout
-      </button>
+      </Button>
     </div>
   )
 

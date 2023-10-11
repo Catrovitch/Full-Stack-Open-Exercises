@@ -1,4 +1,10 @@
 import PropTypes from 'prop-types'
+import {
+  TextField,
+  Button,
+  Typography
+} from '@mui/material'
+
 
 const LoginForm = ({
   handleSubmit,
@@ -9,28 +15,35 @@ const LoginForm = ({
 }) => {
   return (
     <div>
-      <h2>Login</h2>
+      <Typography variant="h6">Login</Typography>
       <form onSubmit={handleSubmit}>
         <div>
-          username
-          <input
+          <TextField
             id="username"
+            label="Username"
+            variant="outlined"
             value={username}
             onChange={handleUsernameChange}
           />
         </div>
         <div>
-          password
-          <input
+          <TextField
             id="password"
+            label="Password"
             type="password"
+            variant="outlined"
             value={password}
             onChange={handlePasswordChange}
           />
         </div>
-        <button id="login-button" type="submit">
-          login
-        </button>
+        <Button
+          id="login-button"
+          type="submit"
+          variant="contained"
+          color="primary"
+        >
+          Login
+        </Button>
       </form>
     </div>
   )

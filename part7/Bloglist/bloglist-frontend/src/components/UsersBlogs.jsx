@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import usersService from "../services/users";
+import {
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+} from '@mui/material'
 
 const UsersBlogs = () => {
   const [usersAndBlogs, setUsersAndBlogs] = useState([]);
@@ -30,24 +39,20 @@ const UsersBlogs = () => {
   return (
     <div>
       <h2>Users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Blogs</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usersAndBlogs.map((user, index) => (
-            <tr key={index}>
-              <td>
-                <Link to={`/users/${user.id}`}>{user.username}</Link>
-              </td>
-              <td>{user.numberOfBlogs}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+            {usersAndBlogs.map((user, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Link to={`/users/${user.id}`}>{user.username}</Link>
+                </TableCell>
+                <TableCell>{user.numberOfBlogs}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

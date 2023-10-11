@@ -1,4 +1,9 @@
 import { Link } from "react-router-dom"
+import { 
+  AppBar,
+  Toolbar,
+  Button
+ } from '@mui/material'
   
 
 const Menu = () => {
@@ -6,10 +11,16 @@ const Menu = () => {
       paddingRight: 5
     }
     return (
-      <div>
-        <Link to='/' style={padding}>blogs</Link>
-        <Link to='/users' style={padding}>users</Link>
-      </div>
+      <AppBar position="static">
+        <Toolbar>
+            <Button color="inherit" component={Link} to="/">
+              blogs
+            </Button>
+            <Button color="inherit" component={Link} to="/users">
+              users
+            </Button>
+        </Toolbar>
+      </AppBar>
     )
   }
 
