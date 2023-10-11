@@ -9,6 +9,8 @@ import {
   TableContainer,
   TableRow,
   Paper,
+  Typography,
+  TableHead
 } from '@mui/material'
 
 const UsersBlogs = () => {
@@ -37,10 +39,16 @@ const UsersBlogs = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Users</h2>
+    <Container>
+      <Typography variant="h3">Users</Typography>
       <TableContainer component={Paper}>
         <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Users</TableCell>
+              <TableCell>Number of blogs</TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
             {usersAndBlogs.map((user, index) => (
               <TableRow key={index}>
@@ -53,7 +61,7 @@ const UsersBlogs = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Container>
   );
 };
 

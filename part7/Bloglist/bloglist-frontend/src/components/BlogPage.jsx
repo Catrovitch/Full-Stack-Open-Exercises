@@ -5,6 +5,10 @@ import { blogLike } from '../reducers/blogReducer'
 import blogService from "../services/blogs"
 import blogReducer from "../reducers/blogReducer";
 import CommentForm from "./CommentForm";
+import { 
+    Container,
+    Typography,
+    Button } from '@mui/material'
 
 const BlogPage = () => {
     const { id } = useParams()
@@ -44,21 +48,46 @@ const BlogPage = () => {
         dispatch(blogLike(id))
       }
 
+    const containerStyle = {
+        padding: '16px',
+        background: 'white',
+        borderRadius: '10px',
+        width: '80%',
+        margin: '0 auto',
+        border: '5px solid #ccc'
+    }
+
     return (
+        <Container style={containerStyle}>
         <div>
-            <h2>{blogInfo.title}</h2>
-            <p>{blogInfo.url}</p>
-            <p>{blogInfo.likes} likes
-            <button id='likeButton' onClick={likeBlog}>like</button></p>
-            <p>added by {blogInfo.user.username}</p>
-            <h3>comments</h3>
-            <CommentForm blogId={id}></CommentForm>
-            <ul>
-                {blogInfo.comments.map((comment, index) => (
-                <li key={index}>{comment}</li>
-                ))}
-            </ul>
+          <Typography variant="h4">{blogInfo.title}</Typography>
+          <Typography>{blogInfo.url}</Typography>
+          <Typography>
+            {blogInfo.likes} likes{' '}
+            <Button
+              id="likeButton"
+              onClick={likeBlog}
+              variant="contained"
+              color="primary"
+              size="small"
+            >
+              Like
+            </Button>
+          </Typography>
+          <Typography>
+            Added by {blogInfo.user.username}
+          </Typography>
+          <Typography variant="h5">Comments</Typography>
+          <CommentForm blogId={id} />
+          <ul>
+            {blogInfo.comments.map((comment, index) => (
+              <li key={index}>
+                <Typography>{comment}</Typography>
+              </li>
+            ))}
+          </ul>
         </div>
+      </Container>
     )
 }
 

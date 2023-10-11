@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import LoginForm from './LoginForm'
+import Togglable from './Togglable'
+import BlogForm from './BlogForm'
+
 import blogService from '../services/blogs'
 import { useDispatch } from 'react-redux'
 import { setLogin, setLogout } from '../reducers/userReducer'
-import { Button } from '@mui/material'
+import { 
+  Button,
+  Typography,
+  Container
+ } from '@mui/material'
 
 const IfUserIsLoggedIn = () => {
 
@@ -52,25 +59,37 @@ const IfUserIsLoggedIn = () => {
 
   const loggedInUser = (user) => (
     <div>
-      <p>{user.name} logged in</p>
-      <Button id="LogoutButton" type="submit" onClick={handleLogout} variant="contained" color="primary">
+      <Typography variant="h6" style={{ textDecoration: 'none' }}>
+        {user.name} is logged in
+      </Typography>
+      <Button id="LogoutButton" type="submit" onClick={handleLogout} variant="contained" color="inherit">
         logout
       </Button>
     </div>
   )
 
+  const blogFormRef = useRef()
+  const blogForm = () => (
+    <Togglable id="newBlogButton" buttonLabel="new Blog" ref={blogFormRef}>
+      <BlogForm />
+    </Togglable>
+  )
 
+  const containerStyle = {
+    padding: '25px'
+  };
 
   return (
-    <div>
+    <Container style={containerStyle}>
       {!user ? (
         loginForm()
       ) : (
         <div>
           {loggedInUser(user)}
+          {user && blogForm()} 
         </div>
       )}
-    </div>
+    </Container>
   )
 }
 

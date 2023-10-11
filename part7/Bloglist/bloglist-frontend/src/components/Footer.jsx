@@ -1,3 +1,5 @@
+import { Typography } from "@mui/material"
+
 const Footer = () => {
   const footerStyle = {
     color: 'green',
@@ -8,7 +10,9 @@ const Footer = () => {
   return (
     <div style={footerStyle}>
       <br />
-      <em>Bloglist app</em>
+      <Typography variant="body2">
+        <em>Bloglist app</em>
+      </Typography>
     </div>
   )
 }

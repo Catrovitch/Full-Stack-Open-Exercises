@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import userService from "../services/users"
+import {
+  Container, 
+  Typography,
+  List,
+  ListItem } from "@mui/material";
 
 const UserPage = () => {
 
@@ -29,19 +34,21 @@ const UserPage = () => {
       }, []);
       
       return (
-        <div>
-            {Object.keys(userAndBlogs).map(username => (
-                <div key={username}>
-                    <h2>{username}</h2>
-                    <h3>added blogs</h3>
-                    <ul>
-                        {userAndBlogs[username].map(blog => (
-                            <li key={blog.id}>{blog.title}</li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-        </div>
+        <Container>
+        {Object.keys(userAndBlogs).map((username) => (
+          <div key={username}>
+            <Typography variant="h4">{username}</Typography>
+            <Typography variant="h5">added blogs</Typography>
+            <List>
+              {userAndBlogs[username].map((blog) => (
+                <ListItem key={blog.id}>
+                  <Typography variant="subtitle1">{blog.title}</Typography>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        ))}
+      </Container>
     )
 }
 

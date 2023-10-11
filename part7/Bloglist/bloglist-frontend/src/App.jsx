@@ -11,7 +11,9 @@ import UsersBlogs from './components/UsersBlogs'
 import UserPage from './components/UserPage'
 import BlogPage from './components/BlogPage'
 import Menu from './components/Menu'
-import { Container } from '@mui/material'
+import { 
+  Container,
+  Typography } from '@mui/material'
 
 import {
   BrowserRouter as Router,
@@ -36,12 +38,15 @@ const App = () => {
     dispatch(initializeBlogs())
   }, [blogIsUpdated])
 
-
+  const containerStyle = {
+    background: '#f0f0f0',
+    padding: '16px', // Add padding for spacing
+  };
 
   return (
-    <Container>
+    <Container style={containerStyle}>
       <Router>
-        <h1>Blogs</h1>
+        <Typography variant="h1">Blogs</Typography>
         <Menu />
         <Notification/>
         <IfUserIsLoggedIn></IfUserIsLoggedIn>

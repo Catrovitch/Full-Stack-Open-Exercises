@@ -1,33 +1,39 @@
-import { useRef } from 'react'
 import { useSelector } from 'react-redux';
 import Blog from './Blog'
-import Togglable from './Togglable'
-import BlogForm from './BlogForm'
+import {
+  Typography,
+  List,
+  ListItem,
+  Paper
+} from '@mui/material'
 
 
 const BlogList = () => {
     const blogs = useSelector(state => state.blogs)
     const user = useSelector(state => state.user)
-    
-    const blogFormRef = useRef()
-    const blogForm = () => (
-      <Togglable id="newBlogButton" buttonLabel="new Blog" ref={blogFormRef}>
-        <BlogForm />
-      </Togglable>
-    )
+
+    const containerStyle = {
+      padding: '16px',
+      background: 'white',
+      borderRadius: '10px',
+      width: '80%',
+      margin: '0 auto',
+      border: '5px solid #ccc'
+  }
+
     return (
-        <div>
-            {user && blogForm()} 
-            <ul id="BlogList">
-            {blogs.map((blog) => (
-                <Blog
-                key={blog.id}
-                blog={blog}
-                user={user}
-                />
-            ))}
-            </ul>
-        </div>
+      <Paper style={containerStyle}>
+      <Typography variant="h6" gutterBottom>
+        Blogs
+      </Typography>
+      <List>
+        {blogs.map((blog) => (
+          <ListItem key={blog.id} style={{ marginBottom: '8px' }}>
+            <Blog blog={blog} user={user} />
+          </ListItem>
+        ))}
+      </List>
+    </Paper>
     )
 }
 
