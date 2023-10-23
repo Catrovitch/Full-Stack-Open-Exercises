@@ -1,4 +1,4 @@
-// bmiCalculator.ts
+
 
 function calculateBmi(heightInCm: number, weightInKg: number): string {
   const heightInM = heightInCm / 100;
@@ -15,8 +15,16 @@ function calculateBmi(heightInCm: number, weightInKg: number): string {
   }
 }
 
-const height = 180;
-const weight = 74;
 
-const bmiResult = calculateBmi(height, weight);
-console.log(bmiResult);
+const args = process.argv.slice(2);
+
+if (args.length !== 2) {
+  console.log("Usage: node script.js <heightInCm> <weightInKg>");
+  process.exit(1);
+}
+
+const heightInCm = parseFloat(args[0]);
+const weightInKg = parseFloat(args[1]); 
+
+const bmiCategory = calculateBmi(heightInCm, weightInKg);
+console.log(`BMI Category: ${bmiCategory}`);

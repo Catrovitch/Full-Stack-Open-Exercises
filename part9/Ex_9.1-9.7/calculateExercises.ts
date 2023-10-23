@@ -35,17 +35,26 @@ interface Rapport {
     const report: Rapport = {
         periodLength,
         trainingDays,
-        average,
-        target,
         success,
         rating,
-        ratingDescription
+        ratingDescription,
+        target,
+        average,
     };
   
     return report;
   }
   
-const weeklyExerciseData = [1, 2, 3, 0, 0, 2, 1, 4];
-const target = 3; 
-const result = calculateExercises(weeklyExerciseData, target);
-console.log(result);
+  const args = process.argv.slice(2);
+
+  if (args.length < 2) {
+      console.log("Usage: node script.js <exercise1> <exercise2> ... <exerciseN> <target>");
+      process.exit(1);
+  }
+  
+
+  const exerciseValues = args.slice(1, args.length).map(Number);
+  const target = Number(args[0]);
+  
+  const result = calculateExercises(exerciseValues, target);
+  console.log(result);
