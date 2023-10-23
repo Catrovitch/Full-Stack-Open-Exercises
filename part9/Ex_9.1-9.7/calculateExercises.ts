@@ -9,15 +9,23 @@ interface Rapport {
     ratingDescription: string;
   }
   
-  function calculateExercises(weeklyExercise: number[], target: number): Rapport {
-    const periodLength = weeklyExercise.length;
-    const trainingDays = weeklyExercise.filter(item => item !== 0).length
-    const average = weeklyExercise.reduce((acc, curr) => acc + curr, 0) / periodLength
-  
+  function calculateExercises(exerciseDays: number[], target: number): Rapport {
+    if (!Array.isArray(exerciseDays) || exerciseDays.length === 0) {
+        throw new Error("Invalid or empty exercise data.");
+    }
+
+    if (isNaN(target) || target <= 0) {
+        throw new Error("Invalid or non-positive target value.");
+    }
+
+    const periodLength = exerciseDays.length;
+    const trainingDays = exerciseDays.filter(item => item !== 0).length;
+    const average = periodLength > 0 ? exerciseDays.reduce((acc, curr) => acc + curr, 0) / periodLength : 0;
+
     let success: boolean;
     let rating: number;
     let ratingDescription: string;
-  
+
     if (average > target) {
         success = true;
         rating = 3;
@@ -31,7 +39,7 @@ interface Rapport {
         rating = 1;
         ratingDescription = "You did not achieve your goals :(";
     }
-  
+
     const report: Rapport = {
         periodLength,
         trainingDays,
@@ -41,9 +49,9 @@ interface Rapport {
         target,
         average,
     };
-  
+
     return report;
-  }
+}
   
   const args = process.argv.slice(2);
 

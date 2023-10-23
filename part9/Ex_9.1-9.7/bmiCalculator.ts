@@ -1,6 +1,8 @@
-
-
 function calculateBmi(heightInCm: number, weightInKg: number): string {
+  if (isNaN(heightInCm) || isNaN(weightInKg) || heightInCm === 0 || weightInKg === 0) {
+    throw new Error("Invalid input: Height and weight must be valid numbers and not zero.");
+  }
+
   const heightInM = heightInCm / 100;
   const bmi = weightInKg / (heightInM * heightInM);
 
@@ -15,7 +17,6 @@ function calculateBmi(heightInCm: number, weightInKg: number): string {
   }
 }
 
-
 const args = process.argv.slice(2);
 
 if (args.length !== 2) {
@@ -24,7 +25,7 @@ if (args.length !== 2) {
 }
 
 const heightInCm = parseFloat(args[0]);
-const weightInKg = parseFloat(args[1]); 
+const weightInKg = parseFloat(args[1]);
 
 const bmiCategory = calculateBmi(heightInCm, weightInKg);
 console.log(`BMI Category: ${bmiCategory}`);
