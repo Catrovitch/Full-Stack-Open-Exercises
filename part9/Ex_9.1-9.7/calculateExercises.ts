@@ -1,4 +1,3 @@
-
 interface Rapport {
     periodLength: number;
     trainingDays: number;

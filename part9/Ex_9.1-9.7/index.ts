@@ -8,7 +8,6 @@ app.get('/hello', (req, res) => {
 });
 
 app.get('/bmi', (req, res) => {
-
   const heightInCm = parseFloat(req.query.height as string);
   const weightInKg = parseFloat(req.query.weight as string);
 
@@ -17,12 +16,12 @@ app.get('/bmi', (req, res) => {
       weight: weightInKg,
       height: heightInCm,
       bmi: calculateBmi(heightInCm, weightInKg)
-    }
+    };
     res.send(bmi);
   } else {
     const error = {
       error: "malformatted parameters"
-    }
+    };
     res.status(400).send(error);
   }
 });
