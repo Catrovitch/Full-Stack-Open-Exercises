@@ -31,4 +31,4 @@ function calculateBmi(heightInCm: number, weightInKg: number): string {
 //console.log(`BMI Category: ${bmiCategory}`);
 
 
-export default calculateBmi
+export default calculateBmi;

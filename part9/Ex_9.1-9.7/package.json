@@ -35,7 +35,7 @@
     "calculateExercises": "ts-node calculateExercises",
     "start": "ts-node index.ts",
     "dev": "ts-node-dev index.ts",
-    "lint": "eslint --ext .ts"
+    "lint": "eslint --ext .ts ."
   },
   "author": "",
   "license": "ISC"

@@ -1,4 +1,4 @@
-interface Rapport {
+export interface Rapport {
     periodLength: number;
     trainingDays: number;
     average: number;
@@ -6,6 +6,11 @@ interface Rapport {
     success: boolean;
     rating: number;
     ratingDescription: string;
+  }
+
+export interface ExerciseRequestBody {
+    daily_exercises: number[];
+    target: number;
   }
   
   function calculateExercises(exerciseDays: number[], target: number): Rapport {
@@ -52,16 +57,20 @@ interface Rapport {
     return report;
 }
   
-  const args = process.argv.slice(2);
+/*
+const args = process.argv.slice(2);
 
-  if (args.length < 2) {
-      console.log("Usage: node script.js <exercise1> <exercise2> ... <exerciseN> <target>");
-      process.exit(1);
-  }
-  
+if (args.length < 2) {
+    console.log("Usage: node script.js <exercise1> <exercise2> ... <exerciseN> <target>");
+    process.exit(1);
+}
 
-  const exerciseValues = args.slice(1, args.length).map(Number);
-  const target = Number(args[0]);
-  
-  const result = calculateExercises(exerciseValues, target);
-  console.log(result);
+const exerciseValues = args.slice(1, args.length).map(Number);
+const target = Number(args[0]);
+
+const result = calculateExercises(exerciseValues, target);
+console.log(result);
+*/
+
+
+export default calculateExercises;
