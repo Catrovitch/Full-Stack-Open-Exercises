@@ -17,15 +17,18 @@ function calculateBmi(heightInCm: number, weightInKg: number): string {
   }
 }
 
-const args = process.argv.slice(2);
+//const args = process.argv.slice(2);
 
-if (args.length !== 2) {
-  console.log("Usage: node script.js <heightInCm> <weightInKg>");
-  process.exit(1);
-}
+//if (args.length !== 2) {
+  //console.log("Usage: node script.js <heightInCm> <weightInKg>");
+  //process.exit(1);
+//}
 
-const heightInCm = parseFloat(args[0]);
-const weightInKg = parseFloat(args[1]);
+//const heightInCm = parseFloat(args[0]);
+//const weightInKg = parseFloat(args[1]);
 
-const bmiCategory = calculateBmi(heightInCm, weightInKg);
-console.log(`BMI Category: ${bmiCategory}`);
+//const bmiCategory = calculateBmi(heightInCm, weightInKg);
+//console.log(`BMI Category: ${bmiCategory}`);
+
+
+export default calculateBmi
