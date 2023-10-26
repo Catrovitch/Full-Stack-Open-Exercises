@@ -21,5 +21,5 @@ export interface Patient {
   dateOfBirth?: string;
 }
 
-export type PatientFormValues = Omit<Patient, "id" | "entries" | "ssn">;
+export type PatientFormValues = Omit<Patient, "id" | "entries" >;
 export type PatientWithoutSsn = Pick<Patient, 'id' | 'name' | 'dateOfBirth' | 'occupation' | 'gender'>;
