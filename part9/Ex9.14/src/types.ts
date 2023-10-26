@@ -17,7 +17,7 @@ interface PartBase {
     groupProjectCount: number;
   }
 
-  interface BackgroundPart extends PartBase {
+  interface BackgroundPart extends PartWithDescription {
     kind: "background"
     backgroundMaterial: string,
   }
