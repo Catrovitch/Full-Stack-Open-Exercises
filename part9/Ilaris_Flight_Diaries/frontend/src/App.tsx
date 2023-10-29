@@ -7,8 +7,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<div>
-          <DiaryForm /> {/* Place DiaryForm component at the top */}
-          <DiaryList /> {/* Place DiaryList component at the bottom */}
+          <DiaryForm /> 
+          <DiaryList /> 
         </div>} />
       </Routes>
     </Router>

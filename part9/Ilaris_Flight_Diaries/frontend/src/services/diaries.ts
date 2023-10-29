@@ -1,5 +1,5 @@
-import axios from "axios"
-import { NewDiaryEntry } from "../types";
+import axios, { AxiosError } from "axios"
+import { DiaryFormEmpty } from "../types";
 import { apiBaseUrl } from "../constants";
 
 
@@ -9,14 +9,12 @@ const getAll = async () => {
     return data;
 };
 
-const createDiary = async (formData: NewDiaryEntry) => {
+const createDiary = async (formData: DiaryFormEmpty) => {
     try {
-      console.log('herre')
       const response = await axios.post(`${apiBaseUrl}/diaries`, formData);
       return response.data;
-    } catch (error) {
-      console.error("Error creating diary:", error);
-      throw error;
+    } catch (e) {
+      throw e as AxiosError;
     }
   };
 

@@ -22,12 +22,14 @@ export interface DiaryEntry {
     comment: string;
   }
 
-export interface NewDiaryEntry {
+export interface DiaryFormEmpty {
     date: string;
     visibility: string;
     weather: string;
     comment: string;
-  }
+}
+
+
   
 
 export type NewDiaryEntry = Omit<DiaryEntry, 'id'>;
