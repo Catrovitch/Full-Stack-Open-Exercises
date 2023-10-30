@@ -11,9 +11,14 @@ const getAll = async () => {
   return data;
 };
 
-
+const getSpecificDiagnosis = async (code: string) => {
+  const  { data } = await axios.get<Diagnosis>(
+    `${apiBaseUrl}/diagnoses/${code}`);
+  return data;
+};
 
 export default {
-  getAll
+  getAll,
+  getSpecificDiagnosis
 };
 

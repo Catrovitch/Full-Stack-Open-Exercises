@@ -1,11 +1,42 @@
-import React from 'react';
-import { Entry as EntryType, HealthCheckRating } from '../../types';
+import React, { useEffect, useState } from 'react';
+import { Entry as EntryType, HealthCheckRating, Diagnosis } from '../../types';
+import diagnosesService from '../../services/diagnoses';
 
 interface EntryProps {
   entry: EntryType;
 }
 
 const Entry: React.FC<EntryProps> = ({ entry }) => {
+    const [diagnosisNames, setDiagnosisNames] = useState<{ [key: string]: string }>({});
+
+    useEffect(() => {
+        const fetchNames = async () => {
+          if (entry.diagnosisCodes && entry.diagnosisCodes.length > 0) {
+            const promises = entry.diagnosisCodes.map((code) =>
+              diagnosesService.getSpecificDiagnosis(code)
+            );
+      
+            try {
+              const results = await Promise.all(promises);
+              const names: { [code: string]: string } = {};
+      
+              for (let i = 0; i < entry.diagnosisCodes.length; i++) {
+                const code = entry.diagnosisCodes[i];
+                const result = results[i];
+                names[code] = result.name;
+              }
+      
+              setDiagnosisNames(names);
+            } catch (error) {
+              console.error('Error fetching diagnosis names:', error);
+            }
+          }
+        };
+      
+        fetchNames();
+      }, [entry.diagnosisCodes]);
+    
+    
   switch (entry.type) {
     case 'Hospital':
       return (
@@ -16,7 +47,9 @@ const Entry: React.FC<EntryProps> = ({ entry }) => {
                 <li>Diagnosis Codes:</li>
                 <ul>
                 {entry.diagnosisCodes.map((code, index) => (
-                    <li key={index}>{code}</li>
+                    <li key={index}>
+                    {code} - {diagnosisNames[code]}
+                    </li>
                 ))}
                 </ul>
             </ul>
@@ -31,15 +64,17 @@ const Entry: React.FC<EntryProps> = ({ entry }) => {
             <div>
               <p>{entry.date} <em>{entry.description}</em></p>
               {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
+            <ul>
+                <li>Diagnosis Codes:</li>
                 <ul>
-                  <li>Diagnosis Codes:</li>
-                  <ul>
-                    {entry.diagnosisCodes.map((code, index) => (
-                      <li key={index}>{code}</li>
-                    ))}
-                  </ul>
+                {entry.diagnosisCodes.map((code, index) => (
+                    <li key={index}>
+                    {code} - {diagnosisNames[code]}
+                    </li>
+                ))}
                 </ul>
-              )}
+            </ul>
+            )}
               <p>Specialist: {entry.specialist}</p>
               <p>Employer: {entry.employerName}</p>
               {entry.sickLeave && (
@@ -54,16 +89,18 @@ const Entry: React.FC<EntryProps> = ({ entry }) => {
         return (
             <div>
               <p>{entry.date} <em>{entry.description}</em></p>
-              {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
+                {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
                 <ul>
-                  <li>Diagnosis Codes:</li>
-                  <ul>
+                    <li>Diagnosis Codes:</li>
+                    <ul>
                     {entry.diagnosisCodes.map((code, index) => (
-                      <li key={index}>{code}</li>
+                        <li key={index}>
+                        {code} - {diagnosisNames[code]}
+                        </li>
                     ))}
-                  </ul>
+                    </ul>
                 </ul>
-              )}
+                )}
               <p>Specialist: {entry.specialist}</p>
               <p>Health Check Rating: {HealthCheckRating[entry.healthCheckRating]}</p>
             </div>
