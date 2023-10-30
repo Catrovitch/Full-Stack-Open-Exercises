@@ -3,7 +3,7 @@ import { v1 as uuid } from 'uuid';
 import diagnoses from './data/diagnoses';
 import patients from './data/patients';
 import cors from 'cors';
-import { PatientWithoutSsn, NonSensitivePatient, Patient, PatientFormValues, Entry } from './types';
+import { PatientWithoutSsn, Patient, PatientFormValues, Entry } from './types';
 import toNewPatientEntry from './utils';
 
 const app = express();
@@ -38,18 +38,19 @@ app.get('/api/patients', (_req, res) => {
 app.get('/api/patient/:id', (req, res) => {
   const id = String(req.params.id);
 
-  const nonSensitivePatientData: NonSensitivePatient[] = patients.map((patient) =>
-    (({ id, name, dateOfBirth, occupation, gender, entries }) => ({
+  const nonSensitivePatientData: Patient[] = patients.map((patient) =>
+    (({ id, name, dateOfBirth, occupation, gender, entries, ssn }) => ({
       id,
       name,
       dateOfBirth,
       occupation,
       gender,
-      entries
+      entries,
+      ssn
     }))(patient)
   );
 
-  const findById = (id: string): NonSensitivePatient | undefined => {
+  const findById = (id: string): Patient | undefined => {
     const entry = nonSensitivePatientData.find((d) => d.id === id);
     return entry;
   };
