@@ -8,16 +8,19 @@ import { Patient, Diagnosis } from "./types";
 
 import patientService from "./services/patients";
 import PatientListPage from "./components/PatientListPage";
+import SpecificPatient from "./components/SpecificPatient";
+
 import diagnosesService from "./services/diagnoses";
 
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
+  const [, setDiagnoses] = useState<Diagnosis[]>([]);
 
   useEffect(() => {
     void axios.get<JSON>(`${apiBaseUrl}/patients`);
     const fetchPatientList = async () => {
       const patients = await patientService.getAll();
+      console.log();
       setPatients(patients);
     };
     fetchPatientList();
@@ -52,6 +55,7 @@ const App = () => {
             <Route path="/patients" element={<PatientListPage patients={patients} setPatients={setPatients} />} />
             <Route path="/diagnoses" element={<h2>Diagnoses</h2>}/>
             <Route path="/ping" element={<h2>Ping</h2>}/>
+            <Route path="/patient/:id" element={<SpecificPatient/>} />
           </Routes>
         </Container>
       </Router>
