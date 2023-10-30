@@ -1,4 +1,5 @@
-import { PatientFormValues, Gender } from "./types";
+import { PatientFormValues, Gender, Diagnosis } from "./types";
+
 
 const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
@@ -47,6 +48,10 @@ const parseDateOfBirth = (dateOfBirth: unknown): string => {
     return dateOfBirth;
 };
 
+const findDiagnosisByCode = (diagnoses: Diagnosis[], code: string): Diagnosis | undefined => {
+    return diagnoses.find((diagnosis) => diagnosis.code === code);
+  };
+
 const toNewPatientEntry = (object: unknown): PatientFormValues => {
     if ( !object || typeof object !== "object" ) {
         throw new Error("Incorrect or missing data");
@@ -68,4 +73,7 @@ const toNewPatientEntry = (object: unknown): PatientFormValues => {
 };
 
 
-export default toNewPatientEntry;
+export default {
+    findDiagnosisByCode,
+    toNewPatientEntry
+};

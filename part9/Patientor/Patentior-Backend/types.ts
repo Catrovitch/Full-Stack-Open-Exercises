@@ -46,9 +46,6 @@ export enum HealthCheckRating {
   "CriticalRisk" = 3
 }
 
-
-
-
 export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry

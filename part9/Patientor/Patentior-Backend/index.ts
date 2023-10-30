@@ -4,7 +4,7 @@ import diagnoses from './data/diagnoses';
 import patients from './data/patients';
 import cors from 'cors';
 import { PatientWithoutSsn, Patient, PatientFormValues, Entry } from './types';
-import toNewPatientEntry from './utils';
+import utils from './utils';
 
 const app = express();
 app.use(cors());
@@ -22,6 +22,13 @@ app.get('/api/ping', (_req, res) => {
 app.get('/api/diagnoses', (_req, res) => {
   console.log('Getting Diagnoses...');
   res.json(diagnoses);
+});
+
+app.get('/api/diagnoses/:id', (req, res) => {
+  const id = String(req.params.id);
+  console.log(`Getting diagnose with id: ${id}`);
+  const specificDiagnosis = utils.findDiagnosisByCode(diagnoses, id);
+  res.json(specificDiagnosis);
 });
 
 app.get('/api/patients', (_req, res) => {
@@ -68,7 +75,7 @@ app.get('/api/patient/:id', (req, res) => {
 app.post('/api/patients', (req, res) => {
   console.log('Adding patient');
   console.log('Body: ', req.body);
-  const patientToAdd: PatientFormValues = toNewPatientEntry(req.body);
+  const patientToAdd: PatientFormValues = utils.toNewPatientEntry(req.body);
   const id: string = uuid();
   const entries: Entry[] = [];
   const patient: Patient = { ...patientToAdd, id, entries };
