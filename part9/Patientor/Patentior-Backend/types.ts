@@ -47,21 +47,22 @@ export enum HealthCheckRating {
 }
 
 
-export interface Patient {
-  id: string;
-  name: string;
-  occupation: string;
-  gender: Gender;
-  ssn?: string;
-  dateOfBirth?: string;
-  entries: Entry[]
-}
+
 
 export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
 
+export interface Patient {
+    id: string;
+    name: string;
+    occupation: string;
+    gender: Gender;
+    ssn?: string;
+    dateOfBirth?: string;
+    entries: Entry[]
+  }
 
 export type PatientFormValues = Omit<Patient, "id" | "entries" >;
 export type PatientWithoutSsn = Pick<Patient, 'id' | 'name' | 'dateOfBirth' | 'occupation' | 'gender'>;
