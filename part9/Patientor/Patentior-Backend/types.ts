@@ -11,6 +11,9 @@ export enum Gender {
   Other = "other"
 }
 
+export interface Entry {
+  entry: string[];
+}
 
 export interface Patient {
   id: string;
@@ -19,7 +22,9 @@ export interface Patient {
   gender: Gender;
   ssn?: string;
   dateOfBirth?: string;
+  entries: Entry[]
 }
 
 export type PatientFormValues = Omit<Patient, "id" | "entries" >;
 export type PatientWithoutSsn = Pick<Patient, 'id' | 'name' | 'dateOfBirth' | 'occupation' | 'gender'>;
+export type NonSensitivePatient = Omit<Patient, 'ssn' >;

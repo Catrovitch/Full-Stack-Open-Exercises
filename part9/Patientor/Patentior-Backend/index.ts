@@ -3,7 +3,7 @@ import { v1 as uuid } from 'uuid';
 import diagnoses from './data/diagnoses';
 import patients from './data/patients';
 import cors from 'cors';
-import { PatientWithoutSsn, Patient, PatientFormValues } from './types';
+import { PatientWithoutSsn, NonSensitivePatient, Patient, PatientFormValues, Entry } from './types';
 import toNewPatientEntry from './utils';
 
 const app = express();
@@ -36,14 +36,21 @@ app.get('/api/patients', (_req, res) => {
 });
 
 app.get('/api/patient/:id', (req, res) => {
-  const id = String(req.params.id); // Convert id to a number
+  const id = String(req.params.id);
 
-  const patientsWithoutSsn: PatientWithoutSsn[] = patients.map((patient) =>
-    (({ id, name, dateOfBirth, occupation, gender }) => ({ id, name, dateOfBirth, occupation, gender }))(patient)
+  const nonSensitivePatientData: NonSensitivePatient[] = patients.map((patient) =>
+    (({ id, name, dateOfBirth, occupation, gender, entries }) => ({
+      id,
+      name,
+      dateOfBirth,
+      occupation,
+      gender,
+      entries
+    }))(patient)
   );
 
-  const findById = (id: string): PatientWithoutSsn | undefined => {
-    const entry = patientsWithoutSsn.find((d) => d.id === id);
+  const findById = (id: string): NonSensitivePatient | undefined => {
+    const entry = nonSensitivePatientData.find((d) => d.id === id);
     return entry;
   };
 
@@ -52,6 +59,7 @@ app.get('/api/patient/:id', (req, res) => {
   if (patientToFind) {
     res.json(patientToFind);
   } else {
+    console.log('here');
     res.status(404).send('Patient not found');
   }
 });
@@ -61,8 +69,8 @@ app.post('/api/patients', (req, res) => {
   console.log('Body: ', req.body);
   const patientToAdd: PatientFormValues = toNewPatientEntry(req.body);
   const id: string = uuid();
-
-  const patient: Patient = { ...patientToAdd, id };
+  const entries: Entry[] = [];
+  const patient: Patient = { ...patientToAdd, id, entries };
 
   patients.push(patient);
 
