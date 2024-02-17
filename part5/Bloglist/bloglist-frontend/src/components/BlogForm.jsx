@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const BlogForm = ({ createBlog, user }) => {
-  const [newBlogTitle, setNewBlogTitle] = useState('')
-  const [newBlogAuthor, setNewBlogAuthor] = useState('')
-  const [newBlogUrl, setNewBlogUrl] = useState('')
+  const [newBlogTitle, setNewBlogTitle] = useState('');
+  const [newBlogAuthor, setNewBlogAuthor] = useState('');
+  const [newBlogUrl, setNewBlogUrl] = useState('');
 
   const addBlog = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     createBlog({
       title: newBlogTitle,
       author: newBlogAuthor,
       url: newBlogUrl,
-    })
+    });
 
-    setNewBlogTitle('')
-    setNewBlogAuthor('')
-    setNewBlogUrl('')
-  }
+    setNewBlogTitle('');
+    setNewBlogAuthor('');
+    setNewBlogUrl('');
+  };
 
   return (
     <div>
@@ -26,7 +26,7 @@ const BlogForm = ({ createBlog, user }) => {
           <label htmlFor="titleInput">Title:</label>
           <input
             type="text"
-            id="Title"
+            id="titleInput"
             value={newBlogTitle}
             onChange={(event) => setNewBlogTitle(event.target.value)}
           />
@@ -35,7 +35,7 @@ const BlogForm = ({ createBlog, user }) => {
           <label htmlFor="authorInput">Author:</label>
           <input
             type="text"
-            id="Author"
+            id="authorInput"
             value={newBlogAuthor}
             onChange={(event) => setNewBlogAuthor(event.target.value)}
           />
@@ -44,15 +44,15 @@ const BlogForm = ({ createBlog, user }) => {
           <label htmlFor="urlInput">URL:</label>
           <input
             type="text"
-            id="URL"
+            id="urlInput"
             value={newBlogUrl}
             onChange={(event) => setNewBlogUrl(event.target.value)}
           />
         </div>
-        <button type="submit" id='createButton'>Create</button>
+        <button type="submit" id="createButton">Create</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default BlogForm
+export default BlogForm;
